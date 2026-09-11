@@ -1,0 +1,28 @@
+{
+  "name": "NextMoe·未萌",
+  "short_name": "NextMoe",
+  "description": "NextMoe·未萌 — Galgame 社区平台与统一账号体系。",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#f5f8fd",
+  "theme_color": "#f5f8fd",
+  "icons": [
+    {
+      "src": "/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

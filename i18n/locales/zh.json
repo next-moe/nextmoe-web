@@ -1,0 +1,138 @@
+{
+  "brand": {
+    "name": "NextMoe·未萌",
+    "short": "NextMoe",
+    "tagline": "Galgame 社区平台 · 统一账号体系"
+  },
+  "nav": {
+    "sites": "成员站点",
+    "account": "账号体系",
+    "developer": "开发者平台",
+    "docs": "文档",
+    "home": "首页",
+    "skip": "跳到主要内容",
+    "menu": "站点导航"
+  },
+  "locale": {
+    "switch": "切换语言",
+    "toEnglish": "English",
+    "toChinese": "中文"
+  },
+  "hero": {
+    "badge": "平台建设中",
+    "lead": "NextMoe·未萌 是一组中文 Galgame 社区站点背后的平台品牌。",
+    "body": "平台本身仍在积极开发中，还没有面向公众开放的完整产品。目前真正在提供服务的，是 NextMoe 统一账号——下面这些站点已经在用它登录。",
+    "ctaSites": "看看成员站点",
+    "ctaAccount": "了解账号体系",
+    "imageAlt": "NextMoe 看板娘「恋 Koi」指向站点标题"
+  },
+  "status": {
+    "eyebrow": "坦白说",
+    "title": "我们还在建设之中",
+    "body": "与其摆一堆还不存在的功能，不如直说现状：NextMoe 作为平台仍在开发，这个站点目前是品牌与法律信息的门户。想找 Galgame 内容的话，请直接前往下面几个已经在正常运营的成员站点。",
+    "items": {
+      "portal": {
+        "name": "品牌门户",
+        "note": "就是你正在看的这个站点：品牌介绍、隐私政策与服务条款。",
+        "state": "已上线"
+      },
+      "account": {
+        "name": "NextMoe 账号",
+        "note": "account.nextmoe.com —— 成员站点的统一登录与授权。",
+        "state": "运行中"
+      },
+      "platform": {
+        "name": "平台产品",
+        "note": "面向玩家的平台功能仍在开发，暂无公开发布时间。",
+        "state": "开发中"
+      }
+    }
+  },
+  "sites": {
+    "eyebrow": "成员站点",
+    "title": "现在就能用的站点",
+    "body": "这些站点各自独立运营，拥有各自的品牌与社区；它们共用 NextMoe 账号来登录。",
+    "visit": "访问站点",
+    "kungal": {
+      "name": "鲲 Galgame",
+      "desc": "Galgame 论坛与社区，聚集讨论、攻略与同好交流。"
+    },
+    "moyu": {
+      "name": "鲲 Galgame 补丁站",
+      "desc": "Galgame 补丁与资源下载站点。"
+    },
+    "letmoe": {
+      "name": "LetMoe",
+      "desc": "Galgame 社区站点。"
+    }
+  },
+  "account": {
+    "eyebrow": "账号体系",
+    "title": "一个账号，通行成员站点",
+    "body": "NextMoe 账号是由 NextMoe 运营的登录与授权服务，部署在 account.nextmoe.com。成员站点通过 OAuth 使用它来完成登录：你在授权页面上看到什么信息，站点就只会收到什么信息。",
+    "features": {
+      "sso": {
+        "name": "统一登录",
+        "note": "一次注册，即可登录各个成员站点。"
+      },
+      "federation": {
+        "name": "第三方登录",
+        "note": "支持使用 Google 或 GitHub 账号登录，我们不会拿到你的密码。"
+      },
+      "consent": {
+        "name": "授权可见",
+        "note": "每次授权都会明确列出站点将获得的信息。"
+      },
+      "privacy": {
+        "name": "数据边界清晰",
+        "note": "我们不出售你的个人数据，也不用于广告投放。"
+      }
+    },
+    "openAccount": "前往账号中心",
+    "readPrivacy": "阅读隐私政策",
+    "imageAlt": "NextMoe 看板娘「恋 Koi」在电脑前",
+    "bloomAlt": "NextMoe 看板娘「恋 Koi」躺在花丛中"
+  },
+  "footer": {
+    "about": "NextMoe·未萌 是一组中文 Galgame 社区站点的平台品牌。平台仍在开发中。",
+    "platform": "平台",
+    "member": "成员站点",
+    "legal": "法律条款",
+    "contact": "联系我们",
+    "contactNote": "有账号、隐私或数据删除方面的问题，请发邮件给我们。",
+    "privacy": "隐私政策",
+    "terms": "服务条款",
+    "account": "账号中心",
+    "rights": "保留所有权利。",
+    "notice": "各成员站点由其各自的运营团队负责，品牌与内容彼此独立。"
+  },
+  "legal": {
+    "effective": "生效日期",
+    "backHome": "返回首页",
+    "toc": "本页内容",
+    "contactTitle": "联系方式",
+    "contactBody": "对本文档有任何疑问，请联系："
+  },
+  "error": {
+    "title404": "这里什么都没有",
+    "body404": "你要找的页面不存在，也可能已经搬走了。",
+    "titleOther": "出了点问题",
+    "bodyOther": "服务器遇到了意外情况，请稍后再试。",
+    "back": "回到首页",
+    "imageAlt": "NextMoe 看板娘「恋 Koi」蹲着伸手"
+  },
+  "seo": {
+    "home": {
+      "title": "NextMoe·未萌 — Galgame 社区平台",
+      "description": "NextMoe·未萌 是一组中文 Galgame 社区站点背后的平台品牌。平台仍在开发中，NextMoe 统一账号已在为 kungal.com、moyu.moe、letmoe.com 提供登录服务。"
+    },
+    "privacy": {
+      "title": "隐私政策 — NextMoe·未萌",
+      "description": "NextMoe 账号服务（account.nextmoe.com）的隐私政策：我们收集哪些信息、如何使用第三方登录数据、如何与成员站点共享，以及如何删除账号。"
+    },
+    "terms": {
+      "title": "服务条款 — NextMoe·未萌",
+      "description": "NextMoe 账号服务与品牌门户的服务条款：服务说明、使用规范、账号责任、免责声明与联系方式。"
+    }
+  }
+}
