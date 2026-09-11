@@ -1,11 +1,11 @@
 <template>
   <section class="relative isolate overflow-hidden">
-    <div class="absolute inset-0 -z-10 bg-[linear-gradient(180deg,#eef4ff_0%,#f7f9fd_100%)]" />
+    <div class="absolute inset-0 -z-10 bg-moe-50" />
     <div class="absolute -left-20 top-6 -z-10 size-80 rounded-full bg-moe-200/40 blur-3xl" />
 
     <div class="mx-auto grid w-full max-w-4xl items-center gap-8 px-5 py-20 sm:px-8 lg:grid-cols-[1fr_0.8fr]">
       <div>
-        <p class="text-7xl font-bold tracking-tight text-brand-gradient sm:text-8xl">{{ status }}</p>
+        <p class="text-7xl font-bold tracking-tight text-moe-600 sm:text-8xl">{{ status }}</p>
         <h1 class="mt-5 text-2xl font-bold tracking-tight text-ink-950 sm:text-3xl">
           {{ isNotFound ? $t('error.title404') : $t('error.titleOther') }}
         </h1>

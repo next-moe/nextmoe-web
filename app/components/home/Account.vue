@@ -1,7 +1,7 @@
 <template>
   <section id="account" class="scroll-mt-20">
     <div class="mx-auto w-full max-w-6xl px-5 py-16 sm:px-8 lg:py-20">
-      <div class="relative overflow-hidden rounded-[2rem] border border-white bg-[linear-gradient(135deg,#f1f6ff_0%,#ffffff_45%,#fdf0f6_100%)] shadow-[0_28px_60px_-32px_rgba(31,58,99,0.4)]">
+      <div class="relative overflow-hidden rounded-[2rem] border border-white bg-white shadow-[0_28px_60px_-32px_rgba(31,58,99,0.4)]">
         <div class="absolute -right-20 -top-24 size-80 rounded-full bg-moe-200/40 blur-3xl" />
 
         <div class="relative grid gap-8 p-7 sm:p-10 lg:grid-cols-[1.15fr_0.85fr] lg:items-center lg:gap-10">
@@ -37,7 +37,7 @@
           </div>
 
           <div class="relative">
-            <div class="absolute left-1/2 top-1/2 size-[19rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(176,206,255,0.7)_0%,rgba(255,201,229,0.45)_48%,rgba(255,255,255,0)_72%)] sm:size-[24rem]" />
+            <div class="absolute left-1/2 top-1/2 size-[19rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(176,206,255,0.4)_0%,rgba(255,201,229,0.25)_48%,rgba(255,255,255,0)_72%)] sm:size-[24rem]" />
             <img
               src="/images/bloom-character.webp"
               :alt="$t('account.bloomAlt')"

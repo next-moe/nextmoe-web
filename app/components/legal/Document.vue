@@ -1,7 +1,7 @@
 <template>
   <article>
     <header class="relative isolate overflow-hidden border-b border-ink-200/60">
-      <div class="absolute inset-0 -z-10 bg-[linear-gradient(180deg,#eef4ff_0%,#f7f9fd_100%)]" />
+      <div class="absolute inset-0 -z-10 bg-moe-50" />
       <div class="absolute -right-24 -top-24 -z-10 size-96 rounded-full bg-sakura-200/35 blur-3xl" />
 
       <div class="mx-auto w-full max-w-6xl px-5 py-14 sm:px-8 lg:py-16">

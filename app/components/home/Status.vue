@@ -28,7 +28,7 @@
       </div>
 
       <div class="relative">
-        <div class="rounded-[2rem] border border-white bg-[linear-gradient(145deg,#eaf1ff_0%,#fdf1f7_100%)] p-6 shadow-[0_20px_50px_-24px_rgba(31,58,99,0.35)]">
+        <div class="rounded-[2rem] border border-white bg-moe-50 p-6 shadow-[0_20px_50px_-24px_rgba(31,58,99,0.35)]">
           <img
             src="/images/desk-character.webp"
             :alt="$t('account.imageAlt')"

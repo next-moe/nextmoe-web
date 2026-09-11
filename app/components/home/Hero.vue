@@ -1,6 +1,6 @@
 <template>
   <section class="relative isolate overflow-hidden">
-    <div class="absolute inset-0 -z-10 bg-[linear-gradient(180deg,#eef4ff_0%,#f7f9fd_55%,#f5f8fd_100%)]" />
+    <div class="absolute inset-0 -z-10 bg-moe-50" />
     <div class="absolute -left-24 top-10 -z-10 size-[28rem] rounded-full bg-moe-200/45 blur-3xl animate-koi-drift" />
     <div class="absolute -right-16 top-40 -z-10 size-[26rem] rounded-full bg-sakura-200/45 blur-3xl animate-koi-drift [animation-delay:-6s]" />
 
@@ -41,7 +41,7 @@
       </div>
 
       <div class="relative mx-auto w-full max-w-md lg:max-w-none">
-        <div class="absolute left-1/2 top-1/2 -z-10 size-[23rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(168,200,255,0.85)_0%,rgba(255,196,226,0.55)_45%,rgba(255,255,255,0)_72%)] sm:size-[31rem]" />
+        <div class="absolute left-1/2 top-1/2 -z-10 size-[23rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(168,200,255,0.45)_0%,rgba(255,196,226,0.3)_45%,rgba(255,255,255,0)_72%)] sm:size-[31rem]" />
         <img
           src="/images/hero-character.webp"
           :alt="$t('hero.imageAlt')"
