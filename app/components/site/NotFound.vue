@@ -1,33 +1,28 @@
 <template>
-  <section class="relative isolate overflow-hidden">
-    <div class="absolute inset-0 -z-10 bg-moe-50" />
-    <div class="absolute -left-20 top-6 -z-10 size-80 rounded-full bg-moe-200/40 blur-3xl" />
+  <section class="mx-auto flex w-full max-w-6xl flex-col justify-center px-5 py-28 sm:px-8 lg:min-h-[calc(100svh-3.5rem)] lg:py-32">
+    <p class="text-[clamp(5rem,20vw,16rem)] leading-[0.85] font-semibold tracking-[-0.05em] text-default-200">
+      {{ status }}
+    </p>
 
-    <div class="mx-auto grid w-full max-w-4xl items-center gap-8 px-5 py-20 sm:px-8 lg:grid-cols-[1fr_0.8fr]">
-      <div>
-        <p class="text-7xl font-bold tracking-tight text-moe-600 sm:text-8xl">{{ status }}</p>
-        <h1 class="mt-5 text-2xl font-bold tracking-tight text-ink-950 sm:text-3xl">
+    <div class="mt-12 flex gap-7 border-t border-kun pt-10">
+      <p class="rail-label hidden shrink-0 self-start border-r border-kun pr-5 text-[11px] tracking-[0.2em] text-default-400 uppercase lg:block">
+        {{ $t('brand.tagline') }}
+      </p>
+
+      <div class="max-w-md">
+        <h1 class="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
           {{ isNotFound ? $t('error.title404') : $t('error.titleOther') }}
         </h1>
-        <p class="mt-4 text-base leading-relaxed text-ink-600">
+        <p class="mt-4 text-base leading-relaxed text-default-500">
           {{ isNotFound ? $t('error.body404') : $t('error.bodyOther') }}
         </p>
-        <NuxtLink
-          :to="localePath('/')"
-          class="mt-8 inline-flex items-center gap-2 rounded-xl bg-ink-900 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-ink-900/15 transition-all hover:-translate-y-0.5 hover:bg-ink-800"
-        >
-          <span aria-hidden="true">←</span>
+        <KunButton :href="localePath('/')" size="lg" icon class-name="mt-8">
+          <template #icon>
+            <KunIcon name="lucide:arrow-left" />
+          </template>
           {{ $t('error.back') }}
-        </NuxtLink>
+        </KunButton>
       </div>
-
-      <img
-        src="/images/lost-character.webp"
-        :alt="$t('error.imageAlt')"
-        width="617"
-        height="560"
-        class="w-full select-none drop-shadow-[0_18px_34px_rgba(31,58,99,0.16)]"
-      >
     </div>
   </section>
 </template>

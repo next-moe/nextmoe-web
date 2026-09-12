@@ -1,49 +1,52 @@
 {
   "brand": {
     "name": "NextMoe",
-    "short": "NextMoe",
-    "tagline": "Galgame community platform · one account"
+    "tagline": "The de facto standard for next-generation ACGN",
+    "slogan": "NextMoe is the de facto standard for the next generation of anime, manga, games and light novels"
+  },
+  "media": {
+    "anime": "Anime",
+    "manga": "Manga",
+    "game": "Games",
+    "novel": "Light novels"
   },
   "nav": {
     "sites": "Member sites",
     "account": "Accounts",
     "developer": "Developer platform",
     "docs": "Docs",
-    "home": "Home",
     "skip": "Skip to main content",
     "menu": "Site navigation"
   },
   "locale": {
-    "switch": "Switch language",
-    "toEnglish": "English",
-    "toChinese": "中文"
+    "switch": "Change language"
   },
   "hero": {
     "badge": "Platform in development",
-    "lead": "NextMoe is the platform brand behind a family of Chinese-language Galgame community sites.",
+    "lead": "NextMoe is a multi-product ACGN community platform: one shared set of account, content and community capabilities behind the independently run sites below.",
     "body": "The platform itself is still under active development and has no public product yet. What is live today is the NextMoe account — the sites below already use it to sign people in.",
     "ctaSites": "See the member sites",
     "ctaAccount": "About NextMoe accounts",
-    "imageAlt": "NextMoe mascot Koi pointing at the site title"
+    "imageAlt": "Koi, the NextMoe mascot"
   },
   "status": {
-    "eyebrow": "Plainly put",
-    "title": "We are still building this",
-    "body": "Rather than advertise features that do not exist yet, here is the honest state of things: NextMoe as a platform is under development, and this site is currently a brand and legal information portal. If you came looking for Galgame content, head straight to the member sites below — those are live.",
+    "eyebrow": "Straight answer",
+    "title": "We are still building",
+    "body": "Rather than list features that do not exist yet, here is the state of things: NextMoe as a platform is still being built, and this site is currently a portal for brand and legal information. If you are looking for content, go straight to the member sites below — those are running today.",
     "items": {
       "portal": {
         "name": "Brand portal",
-        "note": "The site you are reading: brand information, privacy policy and terms.",
+        "note": "The site you are reading: brand information, privacy policy and terms of service.",
         "state": "Live"
       },
       "account": {
         "name": "NextMoe account",
-        "note": "account.nextmoe.com — sign-in and authorization for the member sites.",
+        "note": "account.nextmoe.com — single sign-on and authorization for the member sites.",
         "state": "Running"
       },
       "platform": {
-        "name": "Platform product",
-        "note": "The player-facing platform is still being built. No public release date yet.",
+        "name": "Content platform",
+        "note": "Cross-media entries, catalogue and community capabilities are still in development, with no public release date.",
         "state": "In development"
       }
     }
@@ -51,33 +54,33 @@
   "sites": {
     "eyebrow": "Member sites",
     "title": "Sites you can use today",
-    "body": "Each site is run independently with its own brand and community. They share the NextMoe account for sign-in.",
+    "body": "These sites are run independently and have their own brands and communities; they share the NextMoe account for signing in.",
     "visit": "Visit site",
     "kungal": {
-      "name": "Kun Galgame",
-      "desc": "A Galgame forum and community for discussion, guides and fan talk."
+      "name": "KUN Galgame Forum",
+      "desc": "A community forum for Galgames and visual novels — discussion, guides and fellow enthusiasts."
     },
     "moyu": {
-      "name": "Kun Galgame Patch",
-      "desc": "A Galgame patch and resource download site."
+      "name": "KUN Galgame Patch",
+      "desc": "An open-source, free, no-barrier download site for Galgame patches and resources."
     },
     "letmoe": {
-      "name": "LetMoe",
-      "desc": "A Galgame community site."
+      "name": "letmoe",
+      "desc": "A free, no-barrier ACG game resource site and community — doujin games first, Galgames alongside."
     }
   },
   "account": {
     "eyebrow": "Accounts",
     "title": "One account across the member sites",
-    "body": "The NextMoe account is a sign-in and authorization service operated by NextMoe at account.nextmoe.com. Member sites use it through OAuth: a site receives exactly the information shown to you on the consent screen, and nothing else.",
+    "body": "The NextMoe account is a sign-in and authorization service operated by NextMoe at account.nextmoe.com. Member sites use it over OAuth: a site only receives what the consent screen showed you.",
     "features": {
       "sso": {
         "name": "Single sign-on",
-        "note": "Register once, sign in to every member site."
+        "note": "Register once and sign in to every member site."
       },
       "federation": {
-        "name": "Google and GitHub sign-in",
-        "note": "You can sign in with Google or GitHub. We never receive your password."
+        "name": "Third-party sign-in",
+        "note": "Sign in with Google or GitHub — we never receive your password."
       },
       "consent": {
         "name": "Visible consent",
@@ -88,51 +91,49 @@
         "note": "We do not sell your personal data and do not use it for advertising."
       }
     },
-    "openAccount": "Open the account centre",
+    "openAccount": "Go to account centre",
     "readPrivacy": "Read the privacy policy",
-    "imageAlt": "NextMoe mascot Koi at a computer",
-    "bloomAlt": "NextMoe mascot Koi resting among flowers"
+    "bloomAlt": "Koi, the NextMoe mascot, lying among flowers"
   },
   "footer": {
-    "about": "NextMoe is the platform brand of a family of Chinese-language Galgame community sites. The platform is still in development.",
+    "about": "NextMoe is the de facto standard for the next generation of anime, manga, games and light novels. The platform is still being built.",
     "platform": "Platform",
     "member": "Member sites",
     "legal": "Legal",
     "contact": "Contact",
-    "contactNote": "Questions about accounts, privacy or data deletion — email us.",
+    "contactNote": "For questions about accounts, privacy or data deletion, email us.",
     "privacy": "Privacy Policy",
     "terms": "Terms of Service",
     "account": "Account centre",
     "rights": "All rights reserved.",
-    "notice": "Each member site is operated by its own team; their brands and content are independent."
+    "notice": "Each member site is run by its own team; their brands and content are independent."
   },
   "legal": {
     "effective": "Effective date",
     "backHome": "Back to home",
     "toc": "On this page",
     "contactTitle": "Contact",
-    "contactBody": "For any question about this document, contact us at:"
+    "contactBody": "For any question about this document, reach us at:"
   },
   "error": {
     "title404": "Nothing here",
     "body404": "The page you are looking for does not exist, or it has moved.",
     "titleOther": "Something went wrong",
-    "bodyOther": "The server ran into an unexpected problem. Please try again later.",
-    "back": "Back to home",
-    "imageAlt": "NextMoe mascot Koi crouching and reaching out"
+    "bodyOther": "The server hit an unexpected condition. Please try again later.",
+    "back": "Back to home"
   },
   "seo": {
     "home": {
-      "title": "NextMoe — Galgame community platform",
-      "description": "NextMoe is the platform brand behind a family of Chinese-language Galgame community sites. The platform is still in development; NextMoe accounts already sign people in to kungal.com, moyu.moe and letmoe.com."
+      "title": "NextMoe — the de facto standard for next-generation ACGN",
+      "description": "NextMoe is the de facto standard for the next generation of anime, manga, games and light novels: a multi-product ACGN community platform. The platform is still being built; the NextMoe account already signs people in to kungal.com, moyu.moe and letmoe.com."
     },
     "privacy": {
       "title": "Privacy Policy — NextMoe",
-      "description": "Privacy policy for the NextMoe account service (account.nextmoe.com): what we collect, how we handle Google and GitHub sign-in data, what member sites receive, and how to delete your account."
+      "description": "Privacy policy for the NextMoe account service (account.nextmoe.com): what we collect, how third-party sign-in data is used, what is shared with member sites, and how to delete your account."
     },
     "terms": {
       "title": "Terms of Service — NextMoe",
-      "description": "Terms of Service for the NextMoe account service and brand portal: what the service is, acceptable use, account responsibility, disclaimers and contact."
+      "description": "Terms of service for the NextMoe account service and brand portal: what the service is, acceptable use, account responsibility, disclaimers and how to reach us."
     }
   }
 }

@@ -1,35 +1,38 @@
 {
   "brand": {
     "name": "NextMoe·未萌",
-    "short": "NextMoe",
-    "tagline": "Galgame 社区平台 · 统一账号体系"
+    "tagline": "下一代 ACGN 的事实标准",
+    "slogan": "NextMoe 是下一代 动漫、漫画、游戏、轻小说 的事实标准"
+  },
+  "media": {
+    "anime": "动漫",
+    "manga": "漫画",
+    "game": "游戏",
+    "novel": "轻小说"
   },
   "nav": {
     "sites": "成员站点",
     "account": "账号体系",
     "developer": "开发者平台",
     "docs": "文档",
-    "home": "首页",
     "skip": "跳到主要内容",
     "menu": "站点导航"
   },
   "locale": {
-    "switch": "切换语言",
-    "toEnglish": "English",
-    "toChinese": "中文"
+    "switch": "切换语言"
   },
   "hero": {
     "badge": "平台建设中",
-    "lead": "NextMoe·未萌 是一组中文 Galgame 社区站点背后的平台品牌。",
-    "body": "平台本身仍在积极开发中，还没有面向公众开放的完整产品。目前真正在提供服务的，是 NextMoe 统一账号——下面这些站点已经在用它登录。",
+    "lead": "NextMoe·未萌 是一个多产品的 ACGN 社区平台：一套共享的账号、内容与社区能力，撑起下面这些各自独立运营的站点。",
+    "body": "平台本身仍在积极建设中，还没有面向公众开放的完整产品。目前真正在提供服务的，是 NextMoe 统一账号——下面这些站点已经在用它登录。",
     "ctaSites": "看看成员站点",
     "ctaAccount": "了解账号体系",
-    "imageAlt": "NextMoe 看板娘「恋 Koi」指向站点标题"
+    "imageAlt": "NextMoe 看板娘「恋 Koi」"
   },
   "status": {
     "eyebrow": "坦白说",
     "title": "我们还在建设之中",
-    "body": "与其摆一堆还不存在的功能，不如直说现状：NextMoe 作为平台仍在开发，这个站点目前是品牌与法律信息的门户。想找 Galgame 内容的话，请直接前往下面几个已经在正常运营的成员站点。",
+    "body": "与其摆一堆还不存在的功能，不如直说现状：NextMoe 作为平台仍在建设，这个站点目前是品牌与法律信息的门户。想找内容的话，请直接前往下面几个已经在正常运营的成员站点。",
     "items": {
       "portal": {
         "name": "品牌门户",
@@ -42,8 +45,8 @@
         "state": "运行中"
       },
       "platform": {
-        "name": "平台产品",
-        "note": "面向玩家的平台功能仍在开发，暂无公开发布时间。",
+        "name": "内容平台",
+        "note": "跨媒介的条目、目录与社区能力仍在开发，暂无公开发布时间。",
         "state": "开发中"
       }
     }
@@ -54,16 +57,16 @@
     "body": "这些站点各自独立运营，拥有各自的品牌与社区；它们共用 NextMoe 账号来登录。",
     "visit": "访问站点",
     "kungal": {
-      "name": "鲲 Galgame",
-      "desc": "Galgame 论坛与社区，聚集讨论、攻略与同好交流。"
+      "name": "鲲 Galgame 论坛",
+      "desc": "Galgame 与视觉小说社区论坛，聚集讨论、攻略与同好交流。"
     },
     "moyu": {
-      "name": "鲲 Galgame 补丁站",
-      "desc": "Galgame 补丁与资源下载站点。"
+      "name": "鲲 Galgame 补丁",
+      "desc": "开源、免费、零门槛的 Galgame 补丁与资源下载站。"
     },
     "letmoe": {
-      "name": "LetMoe",
-      "desc": "Galgame 社区站点。"
+      "name": "一起萌 letmoe",
+      "desc": "免费无门槛的 ACG 游戏资源站与社区，同人游戏为主、Galgame 兼营。"
     }
   },
   "account": {
@@ -90,11 +93,10 @@
     },
     "openAccount": "前往账号中心",
     "readPrivacy": "阅读隐私政策",
-    "imageAlt": "NextMoe 看板娘「恋 Koi」在电脑前",
     "bloomAlt": "NextMoe 看板娘「恋 Koi」躺在花丛中"
   },
   "footer": {
-    "about": "NextMoe·未萌 是一组中文 Galgame 社区站点的平台品牌。平台仍在开发中。",
+    "about": "NextMoe·未萌 是下一代 动漫、漫画、游戏、轻小说 的事实标准。平台仍在建设中。",
     "platform": "平台",
     "member": "成员站点",
     "legal": "法律条款",
@@ -118,13 +120,12 @@
     "body404": "你要找的页面不存在，也可能已经搬走了。",
     "titleOther": "出了点问题",
     "bodyOther": "服务器遇到了意外情况，请稍后再试。",
-    "back": "回到首页",
-    "imageAlt": "NextMoe 看板娘「恋 Koi」蹲着伸手"
+    "back": "回到首页"
   },
   "seo": {
     "home": {
-      "title": "NextMoe·未萌 — Galgame 社区平台",
-      "description": "NextMoe·未萌 是一组中文 Galgame 社区站点背后的平台品牌。平台仍在开发中，NextMoe 统一账号已在为 kungal.com、moyu.moe、letmoe.com 提供登录服务。"
+      "title": "NextMoe·未萌 — 下一代 ACGN 的事实标准",
+      "description": "NextMoe·未萌 是下一代 动漫、漫画、游戏、轻小说 的事实标准：一个多产品的 ACGN 社区平台。平台仍在建设中，NextMoe 统一账号已在为 kungal.com、moyu.moe、letmoe.com 提供登录服务。"
     },
     "privacy": {
       "title": "隐私政策 — NextMoe·未萌",

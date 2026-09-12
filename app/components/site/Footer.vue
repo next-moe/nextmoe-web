@@ -1,72 +1,72 @@
 <template>
-  <footer class="mt-auto border-t border-ink-200/70 bg-white">
-    <div class="mx-auto w-full max-w-6xl px-5 py-14 sm:px-8">
-      <div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
-        <div class="lg:col-span-1">
+  <footer class="mt-auto border-t border-kun bg-content1">
+    <div class="mx-auto w-full max-w-6xl px-5 py-16 sm:px-8">
+      <div class="grid gap-12 sm:grid-cols-2 lg:grid-cols-4">
+        <div>
           <div class="flex items-center gap-2.5">
-            <img src="/favicon.webp" alt="" width="32" height="32" class="size-8 rounded-lg ring-1 ring-ink-200/70">
-            <span class="font-semibold tracking-tight text-ink-900">{{ $t('brand.name') }}</span>
+            <img src="/favicon.webp" alt="" width="28" height="28" class="size-7 rounded-lg">
+            <span class="text-sm font-semibold tracking-tight text-foreground">{{ $t('brand.name') }}</span>
           </div>
-          <p class="mt-3 text-sm leading-relaxed text-ink-500">{{ $t('footer.about') }}</p>
+          <p class="mt-4 text-sm leading-relaxed text-default-500">{{ $t('footer.about') }}</p>
         </div>
 
         <div>
-          <h2 class="text-xs font-semibold uppercase tracking-wider text-ink-400">{{ $t('footer.platform') }}</h2>
-          <ul class="mt-4 space-y-2.5 text-sm">
-            <li>
-              <a :href="PLATFORM.account" target="_blank" rel="noopener noreferrer" class="text-ink-600 transition-colors hover:text-moe-600">
-                {{ $t('footer.account') }}
-              </a>
-            </li>
-            <li>
-              <a :href="PLATFORM.developer" target="_blank" rel="noopener noreferrer" class="text-ink-600 transition-colors hover:text-moe-600">
-                {{ $t('nav.developer') }}
-              </a>
-            </li>
-            <li>
-              <a :href="PLATFORM.docs" target="_blank" rel="noopener noreferrer" class="text-ink-600 transition-colors hover:text-moe-600">
-                {{ $t('nav.docs') }}
+          <h2 class="text-xs font-semibold tracking-[0.2em] text-default-400 uppercase">{{ $t('footer.platform') }}</h2>
+          <ul class="mt-5 space-y-3 text-sm">
+            <li v-for="link in platformLinks" :key="link.href">
+              <a
+                :href="link.href"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-default-600 transition-colors hover:text-primary"
+              >
+                {{ $t(link.label) }}
               </a>
             </li>
           </ul>
         </div>
 
         <div>
-          <h2 class="text-xs font-semibold uppercase tracking-wider text-ink-400">{{ $t('footer.member') }}</h2>
-          <ul class="mt-4 space-y-2.5 text-sm">
+          <h2 class="text-xs font-semibold tracking-[0.2em] text-default-400 uppercase">{{ $t('footer.member') }}</h2>
+          <ul class="mt-5 space-y-3 text-sm">
             <li v-for="site in MEMBER_SITES" :key="site.key">
-              <a :href="site.url" target="_blank" rel="noopener noreferrer" class="text-ink-600 transition-colors hover:text-moe-600">
+              <a
+                :href="site.url"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-default-600 transition-colors hover:text-primary"
+              >
                 {{ $t(`sites.${site.key}.name`) }}
-                <span class="text-ink-400">· {{ site.host }}</span>
+                <span class="text-default-400">· {{ site.host }}</span>
               </a>
             </li>
           </ul>
         </div>
 
         <div>
-          <h2 class="text-xs font-semibold uppercase tracking-wider text-ink-400">{{ $t('footer.legal') }}</h2>
-          <ul class="mt-4 space-y-2.5 text-sm">
+          <h2 class="text-xs font-semibold tracking-[0.2em] text-default-400 uppercase">{{ $t('footer.legal') }}</h2>
+          <ul class="mt-5 space-y-3 text-sm">
             <li>
-              <NuxtLink :to="localePath('/privacy')" class="font-medium text-ink-700 transition-colors hover:text-moe-600">
+              <NuxtLink :to="localePath('/privacy')" class="font-medium text-default-700 transition-colors hover:text-primary">
                 {{ $t('footer.privacy') }}
               </NuxtLink>
             </li>
             <li>
-              <NuxtLink :to="localePath('/terms')" class="font-medium text-ink-700 transition-colors hover:text-moe-600">
+              <NuxtLink :to="localePath('/terms')" class="font-medium text-default-700 transition-colors hover:text-primary">
                 {{ $t('footer.terms') }}
               </NuxtLink>
             </li>
           </ul>
 
-          <h2 class="mt-7 text-xs font-semibold uppercase tracking-wider text-ink-400">{{ $t('footer.contact') }}</h2>
-          <p class="mt-3 text-sm text-ink-500">{{ $t('footer.contactNote') }}</p>
-          <a :href="`mailto:${SUPPORT_EMAIL}`" class="mt-1.5 inline-block text-sm font-medium text-moe-600 underline-offset-4 hover:underline">
+          <h2 class="mt-8 text-xs font-semibold tracking-[0.2em] text-default-400 uppercase">{{ $t('footer.contact') }}</h2>
+          <p class="mt-4 text-sm text-default-500">{{ $t('footer.contactNote') }}</p>
+          <KunLink :href="`mailto:${SUPPORT_EMAIL}`" color="primary" underline="hover" class-name="mt-1.5 text-sm font-medium">
             {{ SUPPORT_EMAIL }}
-          </a>
+          </KunLink>
         </div>
       </div>
 
-      <div class="mt-12 flex flex-col gap-3 border-t border-ink-100 pt-6 text-xs text-ink-400 sm:flex-row sm:items-center sm:justify-between">
+      <div class="mt-14 flex flex-col gap-3 border-t border-kun pt-7 text-xs text-default-400 sm:flex-row sm:items-center sm:justify-between">
         <p>© {{ year }} NextMoe. {{ $t('footer.rights') }}</p>
         <p class="max-w-xl sm:text-right">{{ $t('footer.notice') }}</p>
       </div>
@@ -79,4 +79,10 @@ import { MEMBER_SITES, PLATFORM, SUPPORT_EMAIL } from '~/constants/site'
 
 const localePath = useLocalePath()
 const year = new Date().getFullYear()
+
+const platformLinks = [
+  { href: PLATFORM.account, label: 'footer.account' },
+  { href: PLATFORM.developer, label: 'nav.developer' },
+  { href: PLATFORM.docs, label: 'nav.docs' }
+] as const
 </script>

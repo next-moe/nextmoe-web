@@ -1,44 +1,17 @@
 @import 'tailwindcss';
+@import '@kungal/ui-tokens';
 
-@theme {
-  --font-sans:
-    ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'PingFang SC', 'Hiragino Sans GB',
-    'Microsoft YaHei', 'Noto Sans CJK SC', 'Noto Sans SC', sans-serif;
+@source '../../../node_modules/@kungal/ui-vue';
+@source '../../../node_modules/@kungal/ui-core';
 
-  --color-ink-50: #f5f8fd;
-  --color-ink-100: #e8eff8;
-  --color-ink-200: #cedcee;
-  --color-ink-300: #a6bfdd;
-  --color-ink-400: #7796c3;
-  --color-ink-500: #5674a4;
-  --color-ink-600: #41618f;
-  --color-ink-700: #344c6e;
-  --color-ink-800: #1f3a63;
-  --color-ink-900: #152a4d;
-  --color-ink-950: #0b1730;
-
-  --color-moe-50: #eef4ff;
-  --color-moe-100: #dce8ff;
-  --color-moe-200: #c0d6ff;
-  --color-moe-300: #93b8ff;
-  --color-moe-400: #5f90fb;
-  --color-moe-500: #3a6af0;
-  --color-moe-600: #244ce0;
-  --color-moe-700: #1d3cc4;
-  --color-moe-800: #1e349e;
-  --color-moe-900: #1e317d;
-
-  --color-sakura-50: #fff1f7;
-  --color-sakura-100: #ffe4f0;
-  --color-sakura-200: #ffc9e2;
-  --color-sakura-300: #ff9ecb;
-  --color-sakura-400: #fc65a9;
-  --color-sakura-500: #f43b8a;
-  --color-sakura-600: #e01a6c;
-
-  --color-mint-100: #d9f7ee;
-  --color-mint-300: #7fdcc4;
-  --color-mint-500: #21b894;
+/* KunUI's base layer sets `color` on `*`, which matches <path> too, so an icon's
+   stroke="currentColor" resolved to the page foreground and every arrow inside a
+   solid button rendered near-black on blue. */
+@layer base {
+  svg,
+  svg * {
+    color: inherit;
+  }
 }
 
 :root {
@@ -58,63 +31,10 @@ html {
 }
 
 body {
-  background-color: var(--color-ink-50);
-  color: var(--color-ink-900);
-  font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
-}
-
-@utility glass {
-  background-color: color-mix(in oklab, white 72%, transparent);
-  backdrop-filter: blur(16px) saturate(1.4);
-  -webkit-backdrop-filter: blur(16px) saturate(1.4);
-}
-
-@utility text-brand-gradient {
-  background-image: linear-gradient(100deg, var(--color-ink-900) 0%, var(--color-moe-600) 48%, var(--color-sakura-500) 100%);
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent;
-}
-
-@keyframes koi-float {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-14px);
-  }
-}
-
-@utility animate-koi-float {
-  animation: koi-float 7s ease-in-out infinite;
-}
-
-@keyframes koi-drift {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-  50% {
-    transform: translate3d(18px, -22px, 0) scale(1.06);
-  }
-}
-
-@utility animate-koi-drift {
-  animation: koi-drift 16s ease-in-out infinite;
+@utility rail-label {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
 }

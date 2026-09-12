@@ -6,36 +6,58 @@
 a landing page plus the Privacy Policy and Terms of Service for the NextMoe
 account service at `account.nextmoe.com`. Two locales — Chinese at `/` and
 English at `/en`. It is **fully static**: `nuxt generate` prerenders every route
-and nginx serves the files. There is no server runtime, no backend, no database,
-and no KunUI in this repo — do not import patterns that assume any of them.
+and nginx serves the files. There is no server runtime, no backend and no
+database — do not import patterns that assume any of them.
+
+**Positioning.** NextMoe is a multi-product **ACGN** platform, not a Galgame-only
+one. The slogan is fixed: 「NextMoe 是下一代 动漫、漫画、游戏、轻小说 的事实标准」
+(`brand.slogan`). The four media are `MEDIA` in `app/constants/site.ts`. What is
+actually live is the account service plus the three member sites — the site says
+so plainly, and that honesty is the point of the Status section.
 
 ## Stack facts
 
 - **Nuxt 4** (`nuxt generate`, `nitro.prerender.failOnError: true`).
+- **KunUI** (`@kungal/ui-*`) as the component library, wired as a Nuxt layer
+  (`extends: ['@kungal/ui-nuxt']`) exactly as in kun-galgame-forum. Reach for a
+  `<Kun*>` component before hand-rolling one; **never edit KunUI itself** — it is
+  a shared upstream library, so report bugs and missing features to the user.
 - **@nuxtjs/i18n**: `strategy: 'prefix_except_default'`, `defaultLocale: 'zh'`,
   and `detectBrowserLanguage: false` **on purpose** — browser-detection
   redirects fight static prerendering. Do not turn it on.
 - **Tailwind CSS v4** through `@tailwindcss/vite` (no `tailwind.config.js`).
-  The palette is custom: `ink` / `moe` / `sakura` / `mint` scales defined in
-  `app/assets/css/main.css`. Never use Tailwind's stock palette (gray, blue,
-  indigo, red…); every color comes from those tokens.
+  The palette is KunUI's semantic scale — `primary` / `secondary` / `success` /
+  `default` / `foreground` / `background` / `content1`. There are no project-
+  specific color tokens and there should not be; never use Tailwind's stock
+  palette (gray, blue, indigo, red…) either.
 - **pnpm 11**, pinned via `packageManager` in `package.json`. **Node 24**.
 
-## Design rule: gradients are accents only
+## Design rules
 
-This replaces any earlier, looser waiver. Gradients are allowed **only** as small
-accents, and the current set is the complete set:
+**No gradients.** Not on section backgrounds, not on cards, not on text, not as
+decorative glows or blurred blobs. The page gets its rhythm from solid grounds
+(`background` → `content1` → `foreground`), hairline rules (`border-kun`) and
+type scale. A tonal break — the dark `bg-foreground` account band — does the job
+a gradient used to.
 
-1. `text-brand-gradient` on the brand name in the hero (`app/assets/css/main.css`
-   defines the utility; it exists for this one use).
-2. The low-alpha radial glows behind the character art in `home/Hero.vue` and
-   `home/Account.vue` — soft lighting, peak alpha ≤ 0.5.
-3. The 48px member-site icon chips in `home/Sites.vue` (`bg-gradient-to-br` plus
-   the `from-*`/`to-*` pairs in `app/constants/site.ts`).
+**Two images, both bled.** `hero-koi.webp` is a full standing keyvisual anchored
+to the bottom-right **of the `max-w-6xl` measure** (not the viewport) and sized by
+height, so it tracks the type column at every width; `bloom-character.webp` bleeds
+off the bottom of the dark account band. That is the whole image budget. The
+artwork is extremely pale, so it only has presence over a dark ground or as a
+large cropped silhouette — it disappears on a light one. Do not add a third image,
+and do not reintroduce the "text left, picture boxed on the right" layout.
 
-Never paint a section or card background with a gradient. Large surfaces use
-solid palette colors — tinted bands (`bg-moe-50`) against white cards
-(`bg-white`) on the `bg-ink-50` page ground.
+Anchoring hero art to the **viewport** (`lg:-right-[8%]`) is a bug that already
+shipped once: at 2560px the figure flew into the bottom-right corner with a
+screen-wide gap between it and the text. Position against the measure.
+
+Member-site icons in `public/images/sites/` are the real brands, copied from
+`../kun-galgame-forum`, `../kun-galgame-patch` and `../kun-letmoe-community`.
+kungal and moyu genuinely share the 鲲 mascot — that is not a duplication bug; the
+per-site `accent` colour on the host label is what tells the cards apart.
+
+Display CJK gets `break-keep`. Without it the slogan broke 漫画 across two lines.
 
 ## Content architecture
 
@@ -45,20 +67,47 @@ solid palette colors — tinted bands (`bg-moe-50`) against white cards
   as linked-message syntax and `{}` as interpolation, so a support address like
   `support@nextmoe.com` in a locale file is a compile hazard.
 - `i18n/locales/{zh,en}.json` hold **only short UI strings** (nav, buttons,
-  section headings).
+  section headings). One file per locale, because there is one consumer; split
+  by consumer only if a second one appears.
 - The zh and en legal documents must stay equal in substance — change one, change
   the other in the same edit. Never invent legal or company facts (entity names,
   jurisdictions, retention periods, certifications); if a fact is not already in
   the repo, ask.
+- Brand and positioning facts come from two places outside this repo: the member
+  sites' own repositories (names, descriptions, icons) and the NextMoe
+  architecture draft at `../nextmoe-infra/refs/docs/nextmoe-draft`. The draft is
+  an **internal planning document** — read it for positioning, never copy its
+  roadmap into public copy. Unlaunched products and narratives the draft marks as
+  internal-only stay off this site.
 - Shared facts (domains, support email, effective date) live in
-  `app/constants/site.ts`.
+  `app/constants/site.ts`. Facts that `nuxt.config.ts` and the gate scripts also
+  need — the locale list, the page list — live in `shared/constants/`.
+
+## The gates
+
+`pnpm gate:i18n` (no build) and `pnpm gate:build` (after `pnpm generate`) are the
+enforcement, and CI runs both. Every check has been made to fail deliberately at
+least once; keep it that way when adding one.
+
+- `gate:i18n` — keys complete across locales, placeholders identical per key,
+  and the catalogue matches the keys the code actually asks for (both
+  directions, so an entry every locale carries but nobody renders is caught).
+- `gate:build` — reads `.output/public`: the sitemap agrees with the canonical
+  every page emits, hreflang covers every locale, the 404s stay `noindex` and out
+  of the sitemap, and the zh/en legal documents carry the same section ids in the
+  same order.
+
+`i18n.experimental.typedOptionsAndMessages` is **not** the enforcement: it only
+generates `.nuxt/types/i18n-messages.d.ts` in dev, and `vue-tsc` still accepts a
+key that exists in no locale. It is switched off; the gate is the guarantee.
 
 ## Traps already hit — do not re-hit
 
-- **pnpm 11 build allowlist.** The esbuild approval lives in
-  `pnpm-workspace.yaml` (`allowBuilds:`); the `pnpm` field in `package.json` is
-  gone in pnpm 11. The Dockerfile must `COPY pnpm-workspace.yaml` with the
-  manifest or the install fails with `ERR_PNPM_IGNORED_BUILDS`.
+- **pnpm 11 build allowlist.** Approvals live in `pnpm-workspace.yaml`
+  (`allowBuilds:` — currently `esbuild` and `vue-demi`); the `pnpm` field in
+  `package.json` is gone in pnpm 11. The Dockerfile must `COPY
+  pnpm-workspace.yaml` with the manifest or the install fails with
+  `ERR_PNPM_IGNORED_BUILDS`.
 - **nginx `try_files` order** must be `$uri $uri/index.html $uri/`. Putting
   `$uri/` before `$uri/index.html` makes every clean URL 301 to a trailing
   slash, which contradicts the canonicals and `public/sitemap.xml`.
@@ -66,13 +115,42 @@ solid palette colors — tinted bands (`bg-moe-50`) against white cards
   comment, whitespace or sibling at the template root is itself a root node;
   Nuxt then warns "does not have a single root node" and the page transition
   silently stops animating. Keep comments inside the root element.
+- **`strictSeo` forbids `useLocaleHead`.** With
+  `i18n.experimental.strictSeo: true` the module owns the localized head tags;
+  calling `useLocaleHead` anywhere throws and every route prerenders as a 500.
+  `app.vue` and `error.vue` therefore call neither it nor `useHead` for locale
+  tags.
+- **`i18n.bundle.dropMessageCompiler` breaks the production build.** Messages are
+  served as runtime JSON (`/_i18n/<hash>/<locale>/messages.json`), so dropping
+  the compiler leaves nothing to parse them: dev is fine and the built page dies
+  on hydration with `Error: unhandled node type: 0`. Leave it off.
+- **KunUI's base layer sets `color` on `*`**, which matches SVG `<path>` too, so
+  an icon's `stroke="currentColor"` resolves to the page foreground rather than
+  its button's. `app/assets/css/main.css` puts that back with
+  `svg, svg * { color: inherit }`. The same universal rule means a descendant
+  never inherits a parent's color by default, so **every element inside the dark
+  `bg-foreground` band needs an explicit `text-content1*` class**.
+- **`KunButton` ignores its `icon` slot unless the `icon` prop is set.** The slot
+  renders behind `v-if="icon && iconPosition === …"`, so `<KunButton><template
+  #icon>` alone is silently dropped.
+- **`/images/` is cached for 30 days with no fingerprint in the filename**, so
+  replacing artwork in place leaves returning visitors on the old picture until
+  the cache expires — caught only because a browser kept serving the previous hero
+  after a rebuild. Changing an image means **changing its filename**, not
+  overwriting the file.
+- **nginx needs a per-locale `error_page`.** The server-level
+  `error_page 404 /404/index.html` is Chinese, so an unknown `/en/...` path served
+  an English visitor the Chinese 404. `location ^~ /en/` now carries its own
+  `error_page 404 /en/404/index.html`; a third locale needs the same block.
 
 ## Commands
 
 ```bash
 pnpm dev         # http://localhost:3000
 pnpm typecheck   # vue-tsc --noEmit
+pnpm gate:i18n   # locale catalogue checks, no build needed
 pnpm generate    # prerenders every route, failOnError
+pnpm gate:build  # checks .output/public; run after generate
 ```
 
 Local acceptance also includes a `docker build` plus a container smoke test: the
@@ -85,17 +163,20 @@ Dokploy standalone **Application** building this repo's `Dockerfile` (Node stage
 runs `pnpm generate`, result copied into `nginx:alpine`), container port **80**.
 The apex → www 301 happens in nginx inside the container, not at the proxy.
 
-**Adding a page requires two updates**: the `nitro.prerender.routes` list in
-`nuxt.config.ts` *and* `public/sitemap.xml` (both locales).
+**Adding a page** means a route file, an entry in `PAGES` in
+`shared/constants/routes.ts` (which is what `nitro.prerender.routes` is derived
+from), and both locales in `public/sitemap.xml`. `gate:build` fails if the
+sitemap and the prerendered canonicals disagree.
 
 ## Conventions
 
 - Commit messages entirely in English.
-- Comments default to **none** — code that reads clearly gets no comment. A
-  comment is earned by a mistake that already happened; write the conclusion,
-  not a restatement of the code.
+- Comments default to **none**. A comment is earned by a mistake that already
+  happened — write the conclusion it cost someone, not a restatement of the code.
+  If you cannot name the incident, there is no comment to write.
 - Frontend functions are arrow functions.
-- Constants in `app/constants/`, shared types in `shared/types/`.
+- Constants in `app/constants/`, cross-cutting constants and shared types in
+  `shared/`.
 - `app/pages/` holds route wiring only — a single container component plus any
   route-level meta. Business markup lives in the matching folder under
   `app/components/`, and file names do not repeat the directory prefix

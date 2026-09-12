@@ -9,3 +9,5 @@ dist
 .vscode
 
 source-character-*
+
+.playwright-mcp

@@ -1,8 +1,12 @@
 import tailwindcss from '@tailwindcss/vite'
+import { DEFAULT_LOCALE, LOCALES } from './shared/constants/locale'
+import { PRERENDER_ROUTES } from './shared/constants/routes'
+import { ICON_NAMES } from './shared/constants/icon'
 
 export default defineNuxtConfig({
   compatibilityDate: '2026-09-11',
   devtools: { enabled: false },
+  extends: ['@kungal/ui-nuxt'],
   modules: ['@nuxtjs/i18n'],
   css: ['~/assets/css/main.css'],
   vite: {
@@ -13,7 +17,7 @@ export default defineNuxtConfig({
       meta: [
         { charset: 'utf-8' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-        { name: 'theme-color', content: '#f5f8fd' }
+        { name: 'theme-color', content: '#f4f4f7' }
       ],
       link: [
         { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
@@ -24,21 +28,30 @@ export default defineNuxtConfig({
       ]
     }
   },
+  icon: {
+    mode: 'svg',
+    serverBundle: 'local',
+    clientBundle: { icons: ICON_NAMES, scan: false }
+  },
   i18n: {
     baseUrl: 'https://www.nextmoe.com',
-    defaultLocale: 'zh',
+    defaultLocale: DEFAULT_LOCALE,
     strategy: 'prefix_except_default',
     detectBrowserLanguage: false,
-    locales: [
-      { code: 'zh', language: 'zh-CN', name: '中文', dir: 'ltr', file: 'zh.json' },
-      { code: 'en', language: 'en', name: 'English', dir: 'ltr', file: 'en.json' }
-    ]
+    locales: LOCALES.map(({ code, language, name, file }) => ({
+      code,
+      language,
+      name,
+      dir: 'ltr' as const,
+      file
+    })),
+    experimental: { strictSeo: true }
   },
   nitro: {
     prerender: {
       crawlLinks: true,
       failOnError: true,
-      routes: ['/', '/en', '/privacy', '/en/privacy', '/terms', '/en/terms', '/404', '/en/404']
+      routes: PRERENDER_ROUTES
     }
   }
 })

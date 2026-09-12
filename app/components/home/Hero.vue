@@ -1,57 +1,62 @@
 <template>
-  <section class="relative isolate overflow-hidden">
-    <div class="absolute inset-0 -z-10 bg-moe-50" />
-    <div class="absolute -left-24 top-10 -z-10 size-[28rem] rounded-full bg-moe-200/45 blur-3xl animate-koi-drift" />
-    <div class="absolute -right-16 top-40 -z-10 size-[26rem] rounded-full bg-sakura-200/45 blur-3xl animate-koi-drift [animation-delay:-6s]" />
+  <section class="relative isolate flex min-h-[min(54rem,max(42rem,calc(100svh-3.5rem)))] flex-col overflow-hidden">
+    <div class="relative mx-auto flex w-full max-w-6xl flex-1 flex-col px-5 pt-14 sm:px-8 lg:pt-20">
+      <p class="flex items-center gap-2.5 text-xs font-medium tracking-wider text-default-500 uppercase">
+        <span class="size-1.5 rounded-full bg-secondary" />
+        {{ $t('hero.badge') }}
+      </p>
 
-    <div class="mx-auto grid w-full max-w-6xl items-center gap-10 px-5 pb-16 pt-14 sm:px-8 lg:grid-cols-[1.05fr_1fr] lg:gap-6 lg:pb-24 lg:pt-20">
-      <div class="max-w-xl">
-        <p class="inline-flex items-center gap-2 rounded-full border border-moe-200 bg-white/80 px-3.5 py-1.5 text-xs font-medium text-moe-700 shadow-sm">
-          <span class="relative flex size-2">
-            <span class="absolute inline-flex size-full animate-ping rounded-full bg-moe-400 opacity-70" />
-            <span class="relative inline-flex size-2 rounded-full bg-moe-500" />
-          </span>
-          {{ $t('hero.badge') }}
-        </p>
+      <h1 class="mt-8 text-[clamp(2.75rem,10.5vw,8.5rem)] leading-[0.92] font-semibold tracking-[-0.035em] text-foreground">
+        {{ $t('brand.name') }}
+      </h1>
 
-        <h1 class="mt-6 text-4xl font-bold leading-[1.1] tracking-tight text-ink-950 sm:text-5xl lg:text-6xl">
-          <span class="text-brand-gradient">{{ $t('brand.name') }}</span>
-        </h1>
+      <p class="mt-6 max-w-xl text-lg leading-snug font-medium tracking-tight break-keep text-balance text-foreground sm:text-2xl lg:max-w-[58%]">
+        {{ $t('brand.slogan') }}
+      </p>
 
-        <p class="mt-4 text-lg font-medium text-ink-700 sm:text-xl">{{ $t('brand.tagline') }}</p>
-
-        <p class="mt-6 text-base leading-relaxed text-ink-600">{{ $t('hero.lead') }}</p>
-        <p class="mt-3 text-base leading-relaxed text-ink-500">{{ $t('hero.body') }}</p>
+      <div class="mt-10 max-w-md border-l border-kun pl-6 sm:max-w-lg lg:mt-14">
+        <p class="text-base leading-relaxed text-default-600">{{ $t('hero.lead') }}</p>
+        <p class="mt-4 text-sm leading-relaxed text-default-500">{{ $t('hero.body') }}</p>
 
         <div class="mt-8 flex flex-wrap gap-3">
-          <a
-            href="#sites"
-            class="inline-flex items-center gap-2 rounded-xl bg-ink-900 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-ink-900/15 transition-all hover:-translate-y-0.5 hover:bg-ink-800"
-          >
+          <KunButton href="#sites" size="lg" icon icon-position="right">
             {{ $t('hero.ctaSites') }}
-            <span aria-hidden="true">↓</span>
-          </a>
-          <a
-            href="#account"
-            class="inline-flex items-center gap-2 rounded-xl border border-ink-200 bg-white/90 px-5 py-3 text-sm font-semibold text-ink-800 shadow-sm transition-all hover:-translate-y-0.5 hover:border-moe-300 hover:text-moe-700"
-          >
+            <template #icon>
+              <KunIcon name="lucide:arrow-down" />
+            </template>
+          </KunButton>
+          <KunButton href="#account" size="lg" variant="bordered" color="default">
             {{ $t('hero.ctaAccount') }}
-          </a>
+          </KunButton>
         </div>
       </div>
 
-      <div class="relative mx-auto w-full max-w-md lg:max-w-none">
-        <div class="absolute left-1/2 top-1/2 -z-10 size-[23rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(168,200,255,0.45)_0%,rgba(255,196,226,0.3)_45%,rgba(255,255,255,0)_72%)] sm:size-[31rem]" />
-        <img
-          src="/images/hero-character.webp"
-          :alt="$t('hero.imageAlt')"
-          width="1279"
-          height="900"
-          fetchpriority="high"
-          decoding="async"
-          class="relative w-full animate-koi-float select-none drop-shadow-[0_26px_48px_rgba(31,58,99,0.26)]"
+      <img
+        src="/images/hero-koi.webp"
+        :alt="$t('hero.imageAlt')"
+        width="1171"
+        height="1400"
+        fetchpriority="high"
+        decoding="async"
+        class="pointer-events-none mx-auto mt-auto -z-10 block w-[68%] max-w-[17rem] shrink-0 select-none lg:absolute lg:right-0 lg:bottom-0 lg:mx-0 lg:mt-0 lg:h-[66%] lg:max-h-[36rem] lg:w-auto lg:max-w-none xl:max-h-[40rem]"
+      >
+    </div>
+
+    <div class="relative border-t border-kun bg-background/80 backdrop-blur-sm">
+      <ul class="mx-auto grid w-full max-w-6xl grid-cols-4 divide-x divide-default-100 px-5 sm:px-8">
+        <li
+          v-for="(key, index) in MEDIA"
+          :key="key"
+          class="flex items-baseline gap-2 px-3 py-4 first:pl-0 sm:gap-3 sm:px-4"
         >
-      </div>
+          <span class="hidden text-xs tabular-nums text-default-300 sm:inline">{{ String(index + 1).padStart(2, '0') }}</span>
+          <span class="truncate text-xs text-default-600 sm:text-sm">{{ $t(`media.${key}`) }}</span>
+        </li>
+      </ul>
     </div>
   </section>
 </template>
+
+<script setup lang="ts">
+import { MEDIA } from '~/constants/site'
+</script>

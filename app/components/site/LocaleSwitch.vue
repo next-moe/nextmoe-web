@@ -1,20 +1,17 @@
 <template>
-  <nav :aria-label="$t('locale.switch')" class="inline-flex items-center rounded-full border border-ink-200/80 bg-white/80 p-1 shadow-sm">
-    <NuxtLink
-      v-for="item in locales"
-      :key="item.code"
-      :to="switchLocalePath(item.code)"
-      :hreflang="item.language"
-      :aria-current="item.code === locale ? 'true' : undefined"
-      class="rounded-full px-3 py-1 text-sm font-medium transition-colors"
-      :class="
-        item.code === locale
-          ? 'bg-ink-900 text-white shadow-sm'
-          : 'text-ink-600 hover:bg-ink-100 hover:text-ink-900'
-      "
-    >
-      {{ item.name }}
-    </NuxtLink>
+  <nav :aria-label="$t('locale.switch')" class="flex items-center gap-3 text-sm">
+    <template v-for="(item, index) in locales" :key="item.code">
+      <span v-if="index" aria-hidden="true" class="text-default-300">/</span>
+      <NuxtLink
+        :to="switchLocalePath(item.code)"
+        :hreflang="item.language"
+        :aria-current="item.code === locale ? 'true' : undefined"
+        class="transition-colors"
+        :class="item.code === locale ? 'font-semibold text-foreground' : 'text-default-500 hover:text-foreground'"
+      >
+        {{ item.name }}
+      </NuxtLink>
+    </template>
   </nav>
 </template>
 

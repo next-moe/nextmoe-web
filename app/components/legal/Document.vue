@@ -1,30 +1,30 @@
 <template>
   <article>
-    <header class="relative isolate overflow-hidden border-b border-ink-200/60">
-      <div class="absolute inset-0 -z-10 bg-moe-50" />
-      <div class="absolute -right-24 -top-24 -z-10 size-96 rounded-full bg-sakura-200/35 blur-3xl" />
-
-      <div class="mx-auto w-full max-w-6xl px-5 py-14 sm:px-8 lg:py-16">
-        <NuxtLink :to="localePath('/')" class="inline-flex items-center gap-1.5 text-sm font-medium text-ink-500 transition-colors hover:text-moe-600">
-          <span aria-hidden="true">←</span>
+    <header class="border-b border-kun bg-content1">
+      <div class="mx-auto w-full max-w-6xl px-5 py-16 sm:px-8 lg:py-20">
+        <NuxtLink
+          :to="localePath('/')"
+          class="inline-flex items-center gap-1.5 text-sm font-medium text-default-500 transition-colors hover:text-primary"
+        >
+          <KunIcon name="lucide:arrow-left" />
           {{ $t('legal.backHome') }}
         </NuxtLink>
 
-        <h1 class="mt-5 text-3xl font-bold tracking-tight text-ink-950 sm:text-4xl">{{ doc.title }}</h1>
-        <p class="mt-4 max-w-3xl text-base leading-relaxed text-ink-600">{{ doc.summary }}</p>
-        <p class="mt-5 inline-flex items-center gap-2 rounded-full border border-ink-200 bg-white/80 px-3.5 py-1.5 text-xs font-medium text-ink-600">
+        <h1 class="mt-8 text-3xl font-semibold tracking-tight text-foreground sm:text-5xl">{{ doc.title }}</h1>
+        <p class="mt-6 max-w-3xl text-base leading-relaxed text-default-600">{{ doc.summary }}</p>
+        <p class="mt-8 flex items-baseline gap-2 text-xs tracking-wider text-default-400 uppercase">
           {{ $t('legal.effective') }}
-          <span class="font-semibold text-ink-900">{{ EFFECTIVE_DATE }}</span>
+          <span class="font-semibold tabular-nums text-foreground">{{ EFFECTIVE_DATE }}</span>
         </p>
       </div>
     </header>
 
-    <div class="mx-auto grid w-full max-w-6xl gap-10 px-5 py-12 sm:px-8 lg:grid-cols-[16rem_1fr] lg:py-16">
-      <nav :aria-label="$t('legal.toc')" class="lg:sticky lg:top-24 lg:self-start">
-        <h2 class="text-xs font-semibold uppercase tracking-wider text-ink-400">{{ $t('legal.toc') }}</h2>
-        <ul class="mt-4 space-y-1.5 border-l border-ink-200 pl-4 text-sm">
+    <div class="mx-auto grid w-full max-w-6xl gap-12 px-5 py-14 sm:px-8 lg:grid-cols-[15rem_1fr] lg:py-20">
+      <nav :aria-label="$t('legal.toc')" class="lg:sticky lg:top-20 lg:self-start">
+        <h2 class="text-xs font-semibold tracking-[0.2em] text-default-400 uppercase">{{ $t('legal.toc') }}</h2>
+        <ul class="mt-5 space-y-2 border-l border-kun pl-5 text-sm">
           <li v-for="section in doc.sections" :key="section.id">
-            <a :href="`#${section.id}`" class="block py-0.5 text-ink-500 transition-colors hover:text-moe-600">
+            <a :href="`#${section.id}`" class="block text-default-500 transition-colors hover:text-primary">
               {{ section.title }}
             </a>
           </li>
@@ -34,37 +34,37 @@
       <div class="min-w-0 max-w-3xl">
         <section
           v-for="section in doc.sections"
-          :key="section.id"
           :id="section.id"
-          class="scroll-mt-24 border-b border-ink-100 py-7 first:pt-0 last:border-none"
+          :key="section.id"
+          class="scroll-mt-20 border-b border-kun py-8 first:pt-0 last:border-none"
         >
-          <h2 class="text-xl font-semibold tracking-tight text-ink-950">{{ section.title }}</h2>
+          <h2 class="text-xl font-semibold tracking-tight text-foreground">{{ section.title }}</h2>
 
           <p
             v-for="(paragraph, index) in section.body"
             :key="`p-${index}`"
-            class="mt-4 text-[15px] leading-[1.85] text-ink-600 [&_a]:font-medium [&_a]:text-moe-600 [&_a]:underline [&_a]:underline-offset-4 [&_a:hover]:text-moe-700 [&_strong]:font-semibold [&_strong]:text-ink-900"
+            class="mt-4 text-[15px] leading-[1.85] text-default-600 [&_a:hover]:text-primary-600 [&_a]:font-medium [&_a]:text-primary [&_a]:underline [&_a]:underline-offset-4 [&_strong]:font-semibold [&_strong]:text-foreground"
             v-html="paragraph"
           />
 
-          <ul v-if="section.list" class="mt-4 space-y-2.5">
+          <ul v-if="section.list" class="mt-4 space-y-3">
             <li
               v-for="(entry, index) in section.list"
               :key="`l-${index}`"
-              class="relative pl-6 text-[15px] leading-[1.85] text-ink-600 [&_a]:font-medium [&_a]:text-moe-600 [&_a]:underline [&_a]:underline-offset-4 [&_a:hover]:text-moe-700 [&_strong]:font-semibold [&_strong]:text-ink-900"
+              class="relative pl-6 text-[15px] leading-[1.85] text-default-600 [&_a:hover]:text-primary-600 [&_a]:font-medium [&_a]:text-primary [&_a]:underline [&_a]:underline-offset-4 [&_strong]:font-semibold [&_strong]:text-foreground"
             >
-              <span class="absolute left-1 top-[0.72em] size-1.5 rounded-full bg-moe-300" aria-hidden="true" />
+              <span class="absolute top-[0.72em] left-1 size-1.5 rounded-full bg-default-300" aria-hidden="true" />
               <span v-html="entry" />
             </li>
           </ul>
         </section>
 
-        <div class="mt-10 rounded-2xl border border-moe-100 bg-moe-50/70 p-6">
-          <h2 class="text-sm font-semibold text-ink-900">{{ $t('legal.contactTitle') }}</h2>
-          <p class="mt-2 text-sm text-ink-600">{{ $t('legal.contactBody') }}</p>
-          <a :href="`mailto:${SUPPORT_EMAIL}`" class="mt-1 inline-block text-sm font-semibold text-moe-600 underline underline-offset-4">
+        <div class="mt-12 border-t-2 border-foreground pt-6">
+          <h2 class="text-sm font-semibold text-foreground">{{ $t('legal.contactTitle') }}</h2>
+          <p class="mt-2 text-sm text-default-500">{{ $t('legal.contactBody') }}</p>
+          <KunLink :href="`mailto:${SUPPORT_EMAIL}`" color="primary" underline="always" class-name="mt-2 text-sm font-semibold">
             {{ SUPPORT_EMAIL }}
-          </a>
+          </KunLink>
         </div>
       </div>
     </div>

@@ -28,4 +28,8 @@ jobs:
 
       - run: pnpm typecheck
 
+      - run: pnpm gate:i18n
+
       - run: pnpm generate
+
+      - run: pnpm gate:build

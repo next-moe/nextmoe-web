@@ -10,14 +10,21 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "typecheck": "vue-tsc --noEmit",
+    "gate:i18n": "node scripts/i18n-gate.mjs",
+    "gate:build": "node scripts/build-gate.mjs",
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@kungal/ui-core": "2.35.1",
+    "@kungal/ui-nuxt": "2.35.1",
+    "@kungal/ui-tokens": "2.35.1",
+    "@kungal/ui-vue": "2.35.1",
     "nuxt": "^4.5.2",
     "vue": "^3.5.42",
     "vue-router": "^4.5.1"
   },
   "devDependencies": {
+    "@iconify-json/lucide": "^1.2.131",
     "@nuxtjs/i18n": "^10.6.0",
     "@tailwindcss/vite": "^4.3.3",
     "tailwindcss": "^4.3.3",

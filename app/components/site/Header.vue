@@ -1,23 +1,17 @@
 <template>
-  <header class="sticky top-0 z-50 border-b border-white/70 glass">
-    <div class="mx-auto flex w-full max-w-6xl items-center gap-4 px-5 py-3 sm:px-8">
-      <NuxtLink :to="localePath('/')" class="group flex items-center gap-2.5">
-        <img
-          src="/favicon.webp"
-          alt=""
-          width="36"
-          height="36"
-          class="size-9 rounded-xl ring-1 ring-ink-200/70 transition-transform group-hover:-rotate-6"
-        >
-        <span class="text-base font-semibold tracking-tight text-ink-900">{{ $t('brand.name') }}</span>
+  <header class="sticky top-0 z-kun-sticky border-b border-kun bg-background/85 backdrop-blur-xl">
+    <div class="mx-auto flex h-14 w-full max-w-6xl items-center gap-6 px-5 sm:px-8">
+      <NuxtLink :to="localePath('/')" class="flex items-center gap-2.5">
+        <img src="/favicon.webp" alt="" width="28" height="28" class="size-7 rounded-lg">
+        <span class="text-sm font-semibold tracking-tight text-foreground">{{ $t('brand.name') }}</span>
       </NuxtLink>
 
-      <nav :aria-label="$t('nav.menu')" class="ml-auto hidden items-center gap-1 md:flex">
+      <nav :aria-label="$t('nav.menu')" class="ml-auto hidden items-center gap-7 text-sm md:flex">
         <NuxtLink
           v-for="link in anchors"
           :key="link.hash"
           :to="{ path: localePath('/'), hash: link.hash }"
-          class="rounded-lg px-3 py-2 text-sm font-medium text-ink-600 transition-colors hover:bg-white/70 hover:text-ink-900"
+          class="text-default-600 transition-colors hover:text-foreground"
         >
           {{ $t(link.label) }}
         </NuxtLink>
@@ -27,13 +21,13 @@
           :href="link.href"
           target="_blank"
           rel="noopener noreferrer"
-          class="rounded-lg px-3 py-2 text-sm font-medium text-ink-600 transition-colors hover:bg-white/70 hover:text-ink-900"
+          class="text-default-600 transition-colors hover:text-foreground"
         >
           {{ $t(link.label) }}
         </a>
       </nav>
 
-      <div class="ml-auto md:ml-2">
+      <div class="ml-auto md:ml-0">
         <SiteLocaleSwitch />
       </div>
     </div>
@@ -48,10 +42,10 @@ const localePath = useLocalePath()
 const anchors = [
   { hash: '#sites', label: 'nav.sites' },
   { hash: '#account', label: 'nav.account' }
-]
+] as const
 
 const external = [
   { href: PLATFORM.developer, label: 'nav.developer' },
   { href: PLATFORM.docs, label: 'nav.docs' }
-]
+] as const
 </script>

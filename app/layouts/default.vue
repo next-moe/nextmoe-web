@@ -1,8 +1,8 @@
 <template>
-  <div class="flex min-h-screen flex-col bg-ink-50">
+  <div class="flex min-h-screen flex-col">
     <a
       href="#main"
-      class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-ink-900 focus:px-4 focus:py-2 focus:text-sm focus:text-white"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-kun-modal focus:rounded-kun-md focus:bg-foreground focus:px-4 focus:py-2 focus:text-sm focus:text-content1"
     >
       {{ $t('nav.skip') }}
     </a>
