@@ -15,7 +15,7 @@ services:
   # Dokploy registers the SERVICE NAME on the shared dokploy-network, so a
   # generic name like `web` collides with every other app that has one.
   nextmoe-web:
-    image: ghcr.io/kunmoe/nextmoe-web:latest
+    image: ghcr.io/next-moe/nextmoe-web:latest
     pull_policy: always
     expose: ['80']
     healthcheck:

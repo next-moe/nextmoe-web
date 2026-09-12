@@ -25,7 +25,7 @@ port 80.
 1. `gates` — typecheck, `gate:i18n`, `gate:icon`, `generate`, `gate:build`.
    Pushes to `main` do not run CI separately; this job is the check, so a red
    commit never reaches the registry. CI runs on pull requests.
-2. `build` — pushes `ghcr.io/kunmoe/nextmoe-web:latest` and `:<sha>`.
+2. `build` — pushes `ghcr.io/next-moe/nextmoe-web:latest` and `:<sha>`.
 3. `deploy` — `POST`s the Dokploy redeploy webhook, if one is configured.
 
 Set up:

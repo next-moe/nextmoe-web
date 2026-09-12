@@ -241,6 +241,11 @@ key that exists in no locale. It is switched off; the gate is the guarantee.
   the cache expires — caught only because a browser kept serving the previous hero
   after a rebuild. Changing an image means **changing its filename**, not
   overwriting the file.
+- **The GHCR image namespace must match the repo owner.** `build.yml` tagged
+  `ghcr.io/kunmoe/...` while the repo lives under `next-moe`, and a workflow's
+  `GITHUB_TOKEN` only writes packages owned by that same account. Every run passed
+  the gates, built the site, then died on the registry push with
+  `permission_denied` — the image had never once been published.
 - **nginx needs a per-locale `error_page`.** The server-level
   `error_page 404 /404/index.html` is Chinese, so an unknown `/en/...` path served
   an English visitor the Chinese 404. `location ^~ /en/` now carries its own
@@ -272,7 +277,7 @@ apex → www 301 inside the container rather than at the proxy. The image takes
 `shared/constants/site.ts`.
 
 Pushes to `main` run `.github/workflows/build.yml`: gates, then
-`ghcr.io/kunmoe/nextmoe-web:latest` and `:<sha>`, then the Dokploy webhook.
+`ghcr.io/next-moe/nextmoe-web:latest` and `:<sha>`, then the Dokploy webhook.
 `ci.yml` runs the same gates on pull requests only, so the two never duplicate
 each other. Dokploy deploys `docker-compose.prod.yml`; building the `Dockerfile`
 as a Dokploy Application still works and needs no registry.
