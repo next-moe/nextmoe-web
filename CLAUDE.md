@@ -11,9 +11,15 @@ database — do not import patterns that assume any of them.
 
 **Positioning.** NextMoe is a multi-product **ACGN** platform, not a Galgame-only
 one. The slogan is fixed: 「NextMoe 是下一代 动漫、漫画、游戏、轻小说 的事实标准」
-(`brand.slogan`). The four media are `MEDIA` in `app/constants/site.ts`. What is
-actually live is the account service plus the three member sites — the site says
-so plainly, and that honesty is the point of the Status section.
+(`brand.slogan`). The slogan names the four media, so nothing else on the page
+repeats them: a rail listing 动漫 / 漫画 / 游戏 / 轻小说 sat directly under it and
+said the same thing twice. What is actually live is the account service plus the
+three member sites — the site says so plainly, and that honesty is the point of
+the Status section.
+
+NextMoe dates from **2020**, when kungal.com started; the nextmoe.com domain came
+later, in 2025. The footer copyright is a range from `FOUNDED_YEAR`, not a bare
+current year.
 
 ## Stack facts
 
@@ -62,9 +68,9 @@ screen-wide gap between it and the text. Position against the measure.
 
 The hero figure is **hidden below `lg`** — a standing full-body crop has nowhere
 to stand on a phone, and the hero drops its `min-h` at the same breakpoint so the
-type block does not leave a screen of dead space above the media rail. It is a
-CSS background rather than an `<img>` on purpose: a `display: none` `<img>` is
-still downloaded, so hiding one would have cost every phone the full keyvisual.
+type block does not leave a screen of dead space below it. It is a CSS background
+rather than an `<img>` on purpose: a `display: none` `<img>` is still downloaded,
+so hiding one would have cost every phone the full keyvisual.
 
 Member-site icons in `public/images/sites/` are the real brands, copied from
 `../kun-galgame-forum`, `../kun-galgame-patch` and `../kun-letmoe-community`.
@@ -72,8 +78,8 @@ kungal and moyu genuinely share the 鲲 mascot — that is not a duplication bug
 per-site `accent` colour on the host label is what tells the cards apart.
 
 Sections open on their `<h2>`. There are no eyebrow labels above the headings and
-no `01 / 02 / 03` counters in the lists — the media rail and the status table
-carry a lucide icon in that column instead.
+no `01 / 02 / 03` counters in the lists — the status table carries a lucide icon
+in that column instead.
 
 The site has a light and a dark mode, so **every ground has to be a token**.
 `bg-foreground` inverts: the account band is a dark break on a light page and a
@@ -171,16 +177,20 @@ key that exists in no locale. It is switched off; the gate is the guarantee.
   the bloom art from 237 KB to 151 KB and the hero from 144 KB to 99 KB with no
   visible difference over either ground. Do not flatten onto the band colour
   instead — KunUI ships a dark palette where `foreground` inverts.
-- **`nuxt generate` corrupts a running `nuxt dev`.** Both own `.nuxt`, and the
-  dev server reads its virtual modules (`#build/...`) from there, so a
-  `pnpm generate` an hour into a dev session left that server serving a
-  half-production app: the KunUI plugin never provided `iconComponent`, and every
-  icon hydrated into an empty comment node while the production build was
-  perfect. `pnpm generate` is gated on `scripts/dev-lock-gate.mjs`, which refuses
-  to build while Nuxt's own dev lock is held by a live process. Giving `generate`
-  its own `buildDir` looks like the better fix and is not: the committed
-  `tsconfig.json` references `./.nuxt/tsconfig.*.json` by path, so a split build
-  directory fails the Docker build on a clean checkout.
+- **Two `nuxt dev` servers on one `.nuxt` corrupt each other.** A dev server
+  serves its virtual modules (`#build/...`) out of `.nuxt`, and a second one
+  rewrites them underneath it. The first then serves a half-stale app: the KunUI
+  plugin never provided `iconComponent`, so every icon hydrated into an empty
+  comment node (`expected on client: Symbol(v-cmt)`) while the production build
+  was perfect. Nuxt has a lock for exactly this, but `isLockEnabled()` returns
+  `std-env`'s `isAgent` — a dev server a **person** started writes no lock at all
+  — so every `nuxt` script in `package.json` sets `NUXT_LOCK=1` to force it on.
+  Restarting the dev server is the cure.
+- **`nuxt generate` is not what breaks a dev server**, despite looking like the
+  obvious culprit: a Nuxt 4 production build uses `node_modules/.cache/nuxt/.nuxt`
+  and never touches `.nuxt`. `nuxt prepare` does, and `postinstall` runs it on
+  every `pnpm add` — it holds no lock, so if icons vanish right after an install,
+  restart dev before looking for a code bug.
 - **`/images/` is cached for 30 days with no fingerprint in the filename**, so
   replacing artwork in place leaves returning visitors on the old picture until
   the cache expires — caught only because a browser kept serving the previous hero
@@ -198,7 +208,7 @@ pnpm dev         # http://localhost:3000
 pnpm typecheck   # vue-tsc --noEmit
 pnpm gate:i18n   # locale catalogue checks, no build needed
 pnpm gate:icon   # icon bundle list checks, no build needed
-pnpm generate    # prerenders every route, failOnError; refuses while dev runs
+pnpm generate    # prerenders every route, failOnError
 pnpm gate:build  # checks .output/public; run after generate
 ```
 

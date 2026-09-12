@@ -9,6 +9,6 @@ dist
 *.log
 .DS_Store
 README.md
-# scripts/ stays in the context: `pnpm generate` runs the dev-lock preflight.
+scripts
 
 source-character-*

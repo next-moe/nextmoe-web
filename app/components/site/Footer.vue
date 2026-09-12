@@ -68,7 +68,7 @@
 
       <div class="mt-14 flex flex-col gap-6 border-t border-kun pt-7 sm:flex-row sm:items-start sm:justify-between">
         <div class="space-y-2 text-xs text-default-400">
-          <p>© {{ year }} NextMoe. {{ $t('footer.rights') }}</p>
+          <p>© {{ FOUNDED_YEAR }}–{{ year }} NextMoe. {{ $t('footer.rights') }}</p>
           <p class="max-w-xl">{{ $t('footer.notice') }}</p>
         </div>
         <SiteThemeSwitch />
@@ -78,7 +78,7 @@
 </template>
 
 <script setup lang="ts">
-import { MEMBER_SITES, PLATFORM, SUPPORT_EMAIL } from '~/constants/site'
+import { FOUNDED_YEAR, MEMBER_SITES, PLATFORM, SUPPORT_EMAIL } from '~/constants/site'
 
 const localePath = useLocalePath()
 const year = new Date().getFullYear()

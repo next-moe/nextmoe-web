@@ -1,5 +1,5 @@
 <template>
-  <section class="relative isolate flex flex-col overflow-hidden lg:min-h-[min(54rem,max(42rem,calc(100svh-3.5rem)))]">
+  <section class="relative isolate flex flex-col overflow-hidden border-b border-kun lg:min-h-[min(54rem,max(42rem,calc(100svh-3.5rem)))]">
     <div class="relative mx-auto flex w-full max-w-6xl flex-1 flex-col px-5 pt-14 pb-16 sm:px-8 lg:pt-20 lg:pb-0">
       <p class="flex items-center gap-2.5 text-xs font-medium tracking-wider text-default-500">
         <span class="relative flex size-1.5 shrink-0">
@@ -41,22 +41,5 @@
         class="pointer-events-none absolute right-0 bottom-0 -z-10 hidden aspect-[1171/1400] h-[66%] max-h-[36rem] bg-[url(/images/hero-koi.webp)] bg-contain bg-bottom bg-no-repeat select-none lg:block xl:max-h-[40rem]"
       />
     </div>
-
-    <div class="relative border-t border-kun bg-background/80 backdrop-blur-sm">
-      <ul class="mx-auto grid w-full max-w-6xl grid-cols-4 divide-x divide-default-100 px-5 sm:px-8">
-        <li
-          v-for="item in MEDIA"
-          :key="item.key"
-          class="flex items-center gap-1.5 px-2.5 py-4 first:pl-0 sm:gap-3 sm:px-4"
-        >
-          <KunIcon :name="item.icon" class="shrink-0 text-sm text-default-400 sm:text-lg" />
-          <span class="truncate text-[0.6875rem] text-default-600 sm:text-sm">{{ $t(`media.${item.key}`) }}</span>
-        </li>
-      </ul>
-    </div>
   </section>
 </template>
-
-<script setup lang="ts">
-import { MEDIA } from '~/constants/site'
-</script>

@@ -1,6 +1,8 @@
 export const SITE_URL = 'https://www.nextmoe.com'
 export const SUPPORT_EMAIL = 'support@nextmoe.com'
 export const EFFECTIVE_DATE = '2026-09-11'
+// NextMoe dates from kungal.com, not from the nextmoe.com domain (registered 2025).
+export const FOUNDED_YEAR = 2020
 
 export const PLATFORM = {
   account: 'https://account.nextmoe.com',
@@ -10,13 +12,6 @@ export const PLATFORM = {
 
 export const GOOGLE_USER_DATA_POLICY =
   'https://developers.google.com/terms/api-services-user-data-policy'
-
-export const MEDIA = [
-  { key: 'anime', icon: 'lucide:clapperboard' },
-  { key: 'manga', icon: 'lucide:book-image' },
-  { key: 'game', icon: 'lucide:gamepad-2' },
-  { key: 'novel', icon: 'lucide:book-open-text' }
-] as const
 
 export const MEMBER_SITES = [
   {

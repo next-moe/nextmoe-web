@@ -46,8 +46,9 @@ pnpm generate   # static build into .output/public
 pnpm gate:build # checks the generated output; run after generate
 ```
 
-`generate` refuses to run while `pnpm dev` is up: they share `.nuxt`, and
-building over a live dev server leaves it serving a half-written app.
+Every `nuxt` script sets `NUXT_LOCK=1`, which turns on Nuxt's own lock file.
+Without it a second `pnpm dev` happily starts against the same `.nuxt` and
+rewrites the virtual modules the first one is still serving.
 
 
 `gate:i18n` fails if the two locale catalogues drift apart, if a translation
