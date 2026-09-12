@@ -34,6 +34,10 @@ so plainly, and that honesty is the point of the Status section.
   `ICON_NAMES` in `shared/constants/icon.ts`, exactly as in kun-galgame-forum, and
   nothing is ever fetched at runtime. A name missing from that list renders
   nothing at all; `pnpm gate:icon` is what keeps the list honest.
+- **@nuxtjs/color-mode** with `classPrefix: 'kun-'` and `classSuffix: '-mode'`,
+  because KunUI's dark palette is keyed to `.kun-dark-mode` (and its Tailwind
+  `dark:` variant is `&:is(.kun-dark-mode *)`) — any other class name silently
+  themes nothing. `preference: 'system'`, and the switch is in the footer.
 - **pnpm 11**, pinned via `packageManager` in `package.json`. **Node 24**.
 
 ## Design rules
@@ -70,6 +74,16 @@ per-site `accent` colour on the host label is what tells the cards apart.
 Sections open on their `<h2>`. There are no eyebrow labels above the headings and
 no `01 / 02 / 03` counters in the lists — the media rail and the status table
 carry a lucide icon in that column instead.
+
+The site has a light and a dark mode, so **every ground has to be a token**.
+`bg-foreground` inverts: the account band is a dark break on a light page and a
+light break on a dark one — that is the intent, not a bug, and it is why the
+band's contents use `text-content1*` rather than a fixed colour.
+
+`border-kun` is `default-100`, a hairline meant to delineate a surface. It is
+too faint to read as a deliberate mark: the rule beside the hero lead used it and
+was invisible, so that one is `border-l-2 border-default-300`. Structural
+hairlines (section rules, card edges, table rows) stay `border-kun`.
 
 Display CJK gets `break-keep`. Without it the slogan broke 漫画 across two lines.
 
@@ -157,6 +171,16 @@ key that exists in no locale. It is switched off; the gate is the guarantee.
   the bloom art from 237 KB to 151 KB and the hero from 144 KB to 99 KB with no
   visible difference over either ground. Do not flatten onto the band colour
   instead — KunUI ships a dark palette where `foreground` inverts.
+- **`nuxt generate` corrupts a running `nuxt dev`.** Both own `.nuxt`, and the
+  dev server reads its virtual modules (`#build/...`) from there, so a
+  `pnpm generate` an hour into a dev session left that server serving a
+  half-production app: the KunUI plugin never provided `iconComponent`, and every
+  icon hydrated into an empty comment node while the production build was
+  perfect. `pnpm generate` is gated on `scripts/dev-lock-gate.mjs`, which refuses
+  to build while Nuxt's own dev lock is held by a live process. Giving `generate`
+  its own `buildDir` looks like the better fix and is not: the committed
+  `tsconfig.json` references `./.nuxt/tsconfig.*.json` by path, so a split build
+  directory fails the Docker build on a clean checkout.
 - **`/images/` is cached for 30 days with no fingerprint in the filename**, so
   replacing artwork in place leaves returning visitors on the old picture until
   the cache expires — caught only because a browser kept serving the previous hero
@@ -174,7 +198,7 @@ pnpm dev         # http://localhost:3000
 pnpm typecheck   # vue-tsc --noEmit
 pnpm gate:i18n   # locale catalogue checks, no build needed
 pnpm gate:icon   # icon bundle list checks, no build needed
-pnpm generate    # prerenders every route, failOnError
+pnpm generate    # prerenders every route, failOnError; refuses while dev runs
 pnpm gate:build  # checks .output/public; run after generate
 ```
 

@@ -17,7 +17,7 @@
         {{ $t('brand.slogan') }}
       </p>
 
-      <div class="mt-10 max-w-md border-l border-kun pl-6 sm:max-w-lg lg:mt-14">
+      <div class="mt-10 max-w-md border-l-2 border-default-300 pl-6 sm:max-w-lg lg:mt-14">
         <p class="text-base leading-relaxed text-default-600">{{ $t('hero.lead') }}</p>
         <p class="mt-4 text-sm leading-relaxed text-default-500">{{ $t('hero.body') }}</p>
 

@@ -21,6 +21,12 @@
   "locale": {
     "switch": "切换语言"
   },
+  "theme": {
+    "label": "配色模式",
+    "light": "浅色",
+    "dark": "深色",
+    "system": "跟随系统"
+  },
   "hero": {
     "badge": "NextMoe 当前尚在建设中",
     "lead": "NextMoe·未萌 是一个多产品的 ACGN 社区平台：一套共享的账号、内容与社区能力，撑起下面这些各自独立运营的站点。",

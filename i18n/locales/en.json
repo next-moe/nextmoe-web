@@ -21,6 +21,12 @@
   "locale": {
     "switch": "Change language"
   },
+  "theme": {
+    "label": "Colour scheme",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
+  },
   "hero": {
     "badge": "NextMoe is still under construction",
     "lead": "NextMoe is a multi-product ACGN community platform: one shared set of account, content and community capabilities behind the independently run sites below.",

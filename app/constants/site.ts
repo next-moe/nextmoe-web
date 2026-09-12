@@ -49,3 +49,9 @@ export const STATUS_ITEMS = [
 ] as const
 
 export const ACCOUNT_FEATURES = ['sso', 'federation', 'consent', 'privacy'] as const
+
+export const THEME_OPTIONS = [
+  { value: 'light', icon: 'lucide:sun' },
+  { value: 'dark', icon: 'lucide:moon' },
+  { value: 'system', icon: 'lucide:monitor' }
+] as const

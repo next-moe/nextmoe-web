@@ -18,6 +18,10 @@
   color-scheme: light;
 }
 
+.kun-dark-mode {
+  color-scheme: dark;
+}
+
 html {
   scrollbar-gutter: stable;
   scroll-behavior: smooth;

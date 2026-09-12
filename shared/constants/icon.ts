@@ -11,5 +11,8 @@ export const ICON_NAMES = [
   'lucide:gamepad-2',
   'lucide:globe',
   'lucide:key-round',
-  'lucide:layers'
+  'lucide:layers',
+  'lucide:monitor',
+  'lucide:moon',
+  'lucide:sun'
 ]

@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "nuxt dev",
     "build": "nuxt build",
-    "generate": "nuxt generate",
+    "generate": "node scripts/dev-lock-gate.mjs && nuxt generate",
     "preview": "nuxt preview",
     "typecheck": "vue-tsc --noEmit",
     "gate:i18n": "node scripts/i18n-gate.mjs",
@@ -26,6 +26,7 @@
   },
   "devDependencies": {
     "@iconify-json/lucide": "^1.2.131",
+    "@nuxtjs/color-mode": "^4.0.1",
     "@nuxtjs/i18n": "^10.6.0",
     "@tailwindcss/vite": "^4.3.3",
     "tailwindcss": "^4.3.3",

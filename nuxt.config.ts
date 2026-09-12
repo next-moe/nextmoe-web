@@ -7,7 +7,7 @@ export default defineNuxtConfig({
   compatibilityDate: '2026-09-11',
   devtools: { enabled: false },
   extends: ['@kungal/ui-nuxt'],
-  modules: ['@nuxtjs/i18n'],
+  modules: ['@nuxtjs/i18n', '@nuxtjs/color-mode'],
   css: ['~/assets/css/main.css'],
   vite: {
     plugins: [tailwindcss()]
@@ -17,7 +17,8 @@ export default defineNuxtConfig({
       meta: [
         { charset: 'utf-8' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-        { name: 'theme-color', content: '#f4f4f7' }
+        { name: 'theme-color', content: '#f4f4f7', media: '(prefers-color-scheme: light)' },
+        { name: 'theme-color', content: '#0d0d0d', media: '(prefers-color-scheme: dark)' }
       ],
       link: [
         { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
@@ -27,6 +28,13 @@ export default defineNuxtConfig({
         { rel: 'manifest', href: '/site.webmanifest' }
       ]
     }
+  },
+  colorMode: {
+    preference: 'system',
+    fallback: 'light',
+    classPrefix: 'kun-',
+    classSuffix: '-mode',
+    storageKey: 'nextmoe-color-mode'
   },
   icon: {
     mode: 'svg',

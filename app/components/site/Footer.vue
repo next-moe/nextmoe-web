@@ -66,9 +66,12 @@
         </div>
       </div>
 
-      <div class="mt-14 flex flex-col gap-3 border-t border-kun pt-7 text-xs text-default-400 sm:flex-row sm:items-center sm:justify-between">
-        <p>© {{ year }} NextMoe. {{ $t('footer.rights') }}</p>
-        <p class="max-w-xl sm:text-right">{{ $t('footer.notice') }}</p>
+      <div class="mt-14 flex flex-col gap-6 border-t border-kun pt-7 sm:flex-row sm:items-start sm:justify-between">
+        <div class="space-y-2 text-xs text-default-400">
+          <p>© {{ year }} NextMoe. {{ $t('footer.rights') }}</p>
+          <p class="max-w-xl">{{ $t('footer.notice') }}</p>
+        </div>
+        <SiteThemeSwitch />
       </div>
     </div>
   </footer>

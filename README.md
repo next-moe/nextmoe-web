@@ -17,6 +17,8 @@ account service at `account.nextmoe.com`.
 - `@nuxtjs/i18n` with `prefix_except_default`; `zh` is the default locale
   (`/`), English lives under `/en`
 - Tailwind CSS v4 via `@tailwindcss/vite`, on KunUI's semantic color tokens
+- `@nuxtjs/color-mode` for the light/dark switch in the footer; it follows the
+  system setting until a visitor picks a side
 - pnpm
 
 ## Routes
@@ -43,6 +45,10 @@ pnpm gate:icon  # icon bundle list checks, no build needed
 pnpm generate   # static build into .output/public
 pnpm gate:build # checks the generated output; run after generate
 ```
+
+`generate` refuses to run while `pnpm dev` is up: they share `.nuxt`, and
+building over a live dev server leaves it serving a half-written app.
+
 
 `gate:i18n` fails if the two locale catalogues drift apart, if a translation
 drops an interpolated variable, or if the catalogue and the `t()` call sites
