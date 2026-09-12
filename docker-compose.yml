@@ -1,7 +1,7 @@
-name: nextmoe-web
+name: nextmoe-portal
 
 services:
-  nextmoe-web:
+  nextmoe-portal:
     build:
       context: .
       dockerfile: Dockerfile

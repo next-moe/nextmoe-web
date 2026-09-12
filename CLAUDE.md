@@ -2,7 +2,7 @@
 
 ## What this repo is
 
-`nextmoe-web` is the public brand portal for **NextMoe·未萌** (<https://www.nextmoe.com>):
+`nextmoe-portal` is the public brand portal for **NextMoe·未萌** (<https://www.nextmoe.com>):
 a landing page plus the Privacy Policy and Terms of Service for the NextMoe
 account service at `account.nextmoe.com`. Two locales — Chinese at `/` and
 English at `/en`. It is **fully static**: `nuxt generate` prerenders every route
@@ -277,7 +277,7 @@ apex → www 301 inside the container rather than at the proxy. The image takes
 `shared/constants/site.ts`.
 
 Pushes to `main` run `.github/workflows/build.yml`: gates, then
-`ghcr.io/next-moe/nextmoe-web:latest` and `:<sha>`, then the Dokploy webhook.
+`ghcr.io/next-moe/nextmoe-portal:latest` and `:<sha>`, then the Dokploy webhook.
 `ci.yml` runs the same gates on pull requests only, so the two never duplicate
 each other. Dokploy deploys `docker-compose.prod.yml`; building the `Dockerfile`
 as a Dokploy Application still works and needs no registry.

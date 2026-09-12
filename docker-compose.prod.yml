@@ -1,4 +1,4 @@
-# nextmoe-web — PRODUCTION compose (Dokploy + the GHCR image).
+# nextmoe-portal — PRODUCTION compose (Dokploy + the GHCR image).
 #
 # The image is a finished static site inside nginx:alpine: no env, no secrets, no
 # backing services, nothing read at runtime. Every domain and URL is baked in at
@@ -9,13 +9,13 @@
 #
 # Point BOTH www.nextmoe.com and nextmoe.com at this app in Dokploy — the apex
 # 301 is served by nginx inside the container, so the apex has to reach it.
-name: nextmoe-web
+name: nextmoe-portal
 
 services:
   # Dokploy registers the SERVICE NAME on the shared dokploy-network, so a
   # generic name like `web` collides with every other app that has one.
-  nextmoe-web:
-    image: ghcr.io/next-moe/nextmoe-web:latest
+  nextmoe-portal:
+    image: ghcr.io/next-moe/nextmoe-portal:latest
     pull_policy: always
     expose: ['80']
     healthcheck:

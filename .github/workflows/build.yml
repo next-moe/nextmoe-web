@@ -62,10 +62,10 @@ jobs:
           context: .
           push: true
           tags: |
-            ghcr.io/next-moe/nextmoe-web:latest
-            ghcr.io/next-moe/nextmoe-web:${{ github.sha }}
-          cache-from: type=gha,scope=nextmoe-web
-          cache-to: type=gha,mode=max,scope=nextmoe-web
+            ghcr.io/next-moe/nextmoe-portal:latest
+            ghcr.io/next-moe/nextmoe-portal:${{ github.sha }}
+          cache-from: type=gha,scope=nextmoe-portal
+          cache-to: type=gha,mode=max,scope=nextmoe-portal
 
   deploy:
     needs: build
@@ -73,10 +73,10 @@ jobs:
     steps:
       - name: Trigger Dokploy redeploy
         env:
-          WEBHOOK: ${{ secrets.DOKPLOY_WEBHOOK_NEXTMOE_WEB }}
+          WEBHOOK: ${{ secrets.DOKPLOY_WEBHOOK_NEXTMOE_PORTAL }}
         run: |
           if [ -z "$WEBHOOK" ]; then
-            echo "DOKPLOY_WEBHOOK_NEXTMOE_WEB not set — image pushed to GHCR, skipping redeploy trigger."
+            echo "DOKPLOY_WEBHOOK_NEXTMOE_PORTAL not set — image pushed to GHCR, skipping redeploy trigger."
             exit 0
           fi
           curl -fsS -X POST "$WEBHOOK"

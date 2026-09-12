@@ -1,4 +1,4 @@
-# Deploying nextmoe-web
+# Deploying nextmoe-portal
 
 ## What ships
 
@@ -25,7 +25,7 @@ port 80.
 1. `gates` — typecheck, `gate:i18n`, `gate:icon`, `generate`, `gate:build`.
    Pushes to `main` do not run CI separately; this job is the check, so a red
    commit never reaches the registry. CI runs on pull requests.
-2. `build` — pushes `ghcr.io/next-moe/nextmoe-web:latest` and `:<sha>`.
+2. `build` — pushes `ghcr.io/next-moe/nextmoe-portal:latest` and `:<sha>`.
 3. `deploy` — `POST`s the Dokploy redeploy webhook, if one is configured.
 
 Set up:
@@ -34,10 +34,10 @@ Set up:
   `docker-compose.prod.yml`.
 - Add both domains, container port **80**.
 - Copy the app's redeploy webhook into the repository secret
-  **`DOKPLOY_WEBHOOK_NEXTMOE_WEB`**. Without it the image still publishes; only
+  **`DOKPLOY_WEBHOOK_NEXTMOE_PORTAL`**. Without it the image still publishes; only
   the automatic pull is skipped.
 
-The compose service is named `nextmoe-web`, not `web`, on purpose: Dokploy
+The compose service is named `nextmoe-portal`, not `web`, on purpose: Dokploy
 registers the **service name** on the shared `dokploy-network`, so a generic name
 collides with every other app that has one.
 

@@ -1,4 +1,4 @@
-# nextmoe-web
+# nextmoe-portal
 
 The public brand and legal portal for **NextMoe·未萌**, served at
 <https://www.nextmoe.com>.
