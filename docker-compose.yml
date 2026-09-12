@@ -1,3 +1,13 @@
+# nextmoe-portal — LOCAL compose, the acceptance check before a push.
+#
+# vs docker-compose.prod.yml: `build:` not `image:`, and `ports:` not `expose:`.
+# The host port is in the 1xxxx range so this coexists with `pnpm dev` on 7877;
+# 6761 is the container-internal port nginx.conf listens on.
+#
+#   docker compose up -d --build          # http://localhost:15020
+#
+# The healthcheck ships in the Dockerfile (wget against /), so it applies however
+# the image is run — no `healthcheck:` block belongs in either compose file.
 name: nextmoe-portal
 
 services:
@@ -5,11 +15,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    ports: ['15020:80']
-    healthcheck:
-      test: ['CMD', 'wget', '-q', '-O', '/dev/null', 'http://127.0.0.1/']
-      interval: 10s
-      timeout: 5s
-      retries: 5
-      start_period: 10s
+    image: nextmoe/portal
+    ports: ['15020:6761']
     restart: unless-stopped

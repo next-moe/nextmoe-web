@@ -2,13 +2,22 @@
 #
 # The image is a finished static site inside nginx:alpine: no env, no secrets, no
 # backing services, nothing read at runtime. Every domain and URL is baked in at
-# build time, so this file has no `environment:` block and never will.
+# build time, so this file has no `environment:` block and never will. The
+# healthcheck ships in the Dockerfile, so it covers the Dokploy Application path
+# (option B in docs/deploy.md) too, which never reads this file.
+#
+# vs docker-compose.yml (local): `image:` not `build:`, `expose:` not `ports:`.
+# Traefik reaches the container over dokploy-network on its internal port, and a
+# published host port gets randomized on redeploy and breaks that route.
+#
+# In the Dokploy app → Domains tab, add TWO records, both
+#   Path = / · Service Name = nextmoe-portal · Container Port = 6761
+# one for Host = www.nextmoe.com and one for Host = nextmoe.com. The apex 301 is
+# served by nginx inside the container, so the apex has to reach it. 6761 is the
+# CONTAINER-INTERNAL port (nginx.conf), never a host port.
 #
 #   docker compose -f docker-compose.prod.yml pull
 #   docker compose -f docker-compose.prod.yml up -d
-#
-# Point BOTH www.nextmoe.com and nextmoe.com at this app in Dokploy — the apex
-# 301 is served by nginx inside the container, so the apex has to reach it.
 name: nextmoe-portal
 
 services:
@@ -16,14 +25,10 @@ services:
   # generic name like `web` collides with every other app that has one.
   nextmoe-portal:
     image: ghcr.io/next-moe/nextmoe-portal:latest
+    # Without this a redeploy reuses the cached `latest` and the new build never
+    # goes live.
     pull_policy: always
-    expose: ['80']
-    healthcheck:
-      test: ['CMD', 'wget', '-q', '-O', '/dev/null', 'http://127.0.0.1/']
-      interval: 10s
-      timeout: 5s
-      retries: 5
-      start_period: 10s
+    expose: ['6761']
     restart: unless-stopped
 
 networks:

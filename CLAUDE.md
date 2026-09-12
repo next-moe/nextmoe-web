@@ -271,10 +271,20 @@ six canonical routes return 200 directly, `Host: nextmoe.com` 301s to
 ## Deployment
 
 The runbook is `docs/deploy.md`. In short: one image (Node stage runs
-`pnpm generate`, the result is copied into `nginx:alpine`), container port **80**,
-apex → www 301 inside the container rather than at the proxy. The image takes
-**no environment variables** — every URL is baked in from
+`pnpm generate`, the result is copied into `nginx:alpine`), container port
+**6761**, apex → www 301 inside the container rather than at the proxy. The image
+takes **no environment variables** — every URL is baked in from
 `shared/constants/site.ts`.
+
+The port is **not** 80: every app on the shared `dokploy-network` holds its own
+number in one range (kun-ui 6757, nextmoe-docs 6759, nextmoe-edit-ui 6760, this
+one 6761), so a Dokploy Domains record names a port that belongs to exactly one
+service. 6761 is the container-internal port everywhere it appears — `nginx.conf`,
+`EXPOSE`, `expose:`, the Domains tab — and production publishes no host port at
+all, because Traefik routes over the container network and a published host port
+is randomized on redeploy. The healthcheck lives in the `Dockerfile` rather than
+in a compose file so that a Dokploy **Application**, which reads no compose file,
+is covered by it too.
 
 Pushes to `main` run `.github/workflows/build.yml`: gates, then
 `ghcr.io/next-moe/nextmoe-portal:latest` and `:<sha>`, then the Dokploy webhook.

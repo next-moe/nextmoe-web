@@ -127,7 +127,7 @@ the `Dockerfile` directly as a Dokploy Application works too and needs no
 registry. Either way:
 
 1. a Node stage runs `pnpm install --frozen-lockfile` and `pnpm generate`;
-2. the result is copied into `nginx:alpine` and served as static files on port 80.
+2. the result is copied into `nginx:alpine` and served as static files on 6761.
 
 `nginx.conf` serves `www.nextmoe.com`, 301-redirects the apex `nextmoe.com` to
 `https://www.nextmoe.com`, sends a small set of security headers, caches
