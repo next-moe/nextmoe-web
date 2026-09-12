@@ -21,9 +21,7 @@ const locales = readdirSync(localesDir)
   .sort()
 
 if (locales.length < 2) {
-  console.error(
-    '✗ gate: fewer than two locale files — every check below is vacuously true'
-  )
+  console.error('✗ gate: fewer than two locale files — every check below is vacuously true')
   process.exit(1)
 }
 
@@ -31,8 +29,7 @@ const flatten = (table, prefix = '') => {
   const out = {}
   for (const [key, value] of Object.entries(table)) {
     const path = prefix ? `${prefix}.${key}` : key
-    if (value !== null && typeof value === 'object')
-      Object.assign(out, flatten(value, path))
+    if (value !== null && typeof value === 'object') Object.assign(out, flatten(value, path))
     else out[path] = value
   }
   return out
@@ -41,9 +38,7 @@ const flatten = (table, prefix = '') => {
 const catalogs = Object.fromEntries(
   locales.map((locale) => [
     locale,
-    flatten(
-      JSON.parse(readFileSync(join(localesDir, `${locale}.json`), 'utf8'))
-    )
+    flatten(JSON.parse(readFileSync(join(localesDir, `${locale}.json`), 'utf8')))
   ])
 )
 
@@ -53,9 +48,7 @@ const walk = (dir) =>
     return statSync(path).isDirectory() ? walk(path) : [path]
   })
 
-const sources = sourceDirs
-  .flatMap(walk)
-  .filter((path) => ['.vue', '.ts'].includes(extname(path)))
+const sources = sourceDirs.flatMap(walk).filter((path) => ['.vue', '.ts'].includes(extname(path)))
 
 const show = (values) => [...values].sort().join(', ')
 
@@ -83,11 +76,7 @@ for (const locale of locales.slice(1)) {
 
 console.log('→ gate 2/3: placeholder consistency')
 const placeholders = (message) =>
-  new Set(
-    [...String(message).matchAll(/\{\s*([A-Za-z][A-Za-z0-9]*)\s*\}/g)].map(
-      (m) => m[1]
-    )
-  )
+  new Set([...String(message).matchAll(/\{\s*([A-Za-z][A-Za-z0-9]*)\s*\}/g)].map((m) => m[1]))
 
 for (const key of referenceKeys) {
   const want = placeholders(catalogs[reference][key])
@@ -98,15 +87,11 @@ for (const key of referenceKeys) {
     const missing = [...want].filter((name) => !got.has(name))
     const extra = [...got].filter((name) => !want.has(name))
     if (missing.length || extra.length) {
-      fail(
-        2,
-        `${key} interpolates different variables in ${reference} and ${locale}`,
-        [
-          `${reference}: {${show(want)}}`,
-          `${locale}: {${show(got)}}`,
-          'a translation that drops a variable renders the literal placeholder to the reader'
-        ]
-      )
+      fail(2, `${key} interpolates different variables in ${reference} and ${locale}`, [
+        `${reference}: {${show(want)}}`,
+        `${locale}: {${show(got)}}`,
+        'a translation that drops a variable renders the literal placeholder to the reader'
+      ])
     }
   }
 }
@@ -121,9 +106,7 @@ const patterns = []
 for (const path of sources) {
   const source = readFileSync(path, 'utf8')
 
-  for (const match of source.matchAll(
-    /(?<![\w$])\$?t\(\s*(['"`])((?:\\.|(?!\1).)*)\1/g
-  )) {
+  for (const match of source.matchAll(/(?<![\w$])\$?t\(\s*(['"`])((?:\\.|(?!\1).)*)\1/g)) {
     const [, quote, body] = match
     if (quote === '`' && body.includes('${')) {
       patterns.push({
@@ -141,8 +124,7 @@ for (const path of sources) {
     asked.add(body)
   }
 
-  for (const match of source.matchAll(/(['"])((?:\\.|(?!\1).)*)\1/g))
-    referenced.add(match[2])
+  for (const match of source.matchAll(/(['"])((?:\\.|(?!\1).)*)\1/g)) referenced.add(match[2])
 }
 
 for (const key of [...asked].sort()) {
@@ -155,16 +137,13 @@ for (const key of [...asked].sort()) {
 
 for (const pattern of patterns) {
   if (!referenceKeys.some((key) => pattern.test.test(key))) {
-    fail(3, `\`${pattern.key}\` matches no catalogue key`, [
-      pattern.path.slice(root.length + 1)
-    ])
+    fail(3, `\`${pattern.key}\` matches no catalogue key`, [pattern.path.slice(root.length + 1)])
   }
 }
 
 const reachable = new Set([...asked, ...referenced])
 const orphans = referenceKeys.filter(
-  (key) =>
-    !reachable.has(key) && !patterns.some((pattern) => pattern.test.test(key))
+  (key) => !reachable.has(key) && !patterns.some((pattern) => pattern.test.test(key))
 )
 if (orphans.length) {
   fail(3, 'catalogue entries no call site can reach', [

@@ -9,19 +9,13 @@ const alternates = (path: string) =>
     ...LOCALES.flatMap(({ code, language }) => {
       const href = canonicalUrl(code, path)
       return (code === language ? [code] : [code, language]).map(
-        (hreflang) =>
-          `    <xhtml:link rel="alternate" hreflang="${hreflang}" href="${href}"/>`
+        (hreflang) => `    <xhtml:link rel="alternate" hreflang="${hreflang}" href="${href}"/>`
       )
     }),
     `    <xhtml:link rel="alternate" hreflang="x-default" href="${canonicalUrl(DEFAULT_LOCALE, path)}"/>`
   ].join('\n')
 
-const entry = (
-  loc: string,
-  path: string,
-  changefreq: string,
-  priority: string
-) =>
+const entry = (loc: string, path: string, changefreq: string, priority: string) =>
   [
     '  <url>',
     `    <loc>${loc}</loc>`,
@@ -34,9 +28,7 @@ const entry = (
 
 export default defineEventHandler((event) => {
   const urls = PAGES.flatMap(({ path, changefreq, priority }) =>
-    LOCALES.map(({ code }) =>
-      entry(canonicalUrl(code, path), path, changefreq, priority)
-    )
+    LOCALES.map(({ code }) => entry(canonicalUrl(code, path), path, changefreq, priority))
   )
 
   setHeader(event, 'content-type', 'application/xml; charset=utf-8')

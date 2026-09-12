@@ -1,13 +1,8 @@
 <template>
-  <section
-    id="account"
-    class="relative scroll-mt-14 overflow-hidden bg-foreground"
-  >
+  <section id="account" class="relative scroll-mt-14 overflow-hidden bg-foreground">
     <div class="mx-auto w-full max-w-6xl px-5 pt-24 sm:px-8 lg:pt-32">
       <div class="max-w-2xl">
-        <h2
-          class="text-3xl font-semibold tracking-tight text-content1 sm:text-4xl"
-        >
+        <h2 class="text-3xl font-semibold tracking-tight text-content1 sm:text-4xl">
           {{ $t('account.title') }}
         </h2>
         <p class="mt-5 text-base leading-relaxed text-content1/70">
@@ -31,13 +26,7 @@
       </dl>
 
       <div class="mt-14 flex flex-wrap gap-3">
-        <KunButton
-          :href="PLATFORM.account"
-          target="_blank"
-          size="lg"
-          icon
-          icon-position="right"
-        >
+        <KunButton :href="PLATFORM.account" target="_blank" size="lg" icon icon-position="right">
           {{ $t('account.openAccount') }}
           <template #icon>
             <KunIcon name="lucide:arrow-up-right" />

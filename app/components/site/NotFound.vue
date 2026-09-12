@@ -16,9 +16,7 @@
       </p>
 
       <div class="max-w-md">
-        <h1
-          class="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
-        >
+        <h1 class="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
           {{ isNotFound ? $t('error.title404') : $t('error.titleOther') }}
         </h1>
         <p class="mt-4 text-base leading-relaxed text-default-500">

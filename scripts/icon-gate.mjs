@@ -36,10 +36,7 @@ const catalogues = Object.fromEntries(
   collections.map((collection) => [
     collection,
     JSON.parse(
-      readFileSync(
-        join(root, 'node_modules', '@iconify-json', collection, 'icons.json'),
-        'utf8'
-      )
+      readFileSync(join(root, 'node_modules', '@iconify-json', collection, 'icons.json'), 'utf8')
     )
   ])
 )
@@ -60,8 +57,7 @@ for (const path of sourceDirs
   const source = readFileSync(path, 'utf8')
   for (const [, , value] of source.matchAll(/(['"])((?:\\.|(?!\1).)*)\1/g)) {
     const match = value.match(isIconName)
-    if (match && collections.includes(match[1]))
-      used.set(value, path.slice(root.length + 1))
+    if (match && collections.includes(match[1])) used.set(value, path.slice(root.length + 1))
   }
 }
 
@@ -90,11 +86,9 @@ for (const name of ICON_NAMES) {
   const [collection, icon] = name.split(':')
   const catalogue = catalogues[collection]
   if (!catalogue) {
-    fail(
-      2,
-      `${name} names a collection with no @iconify-json/${collection} installed`,
-      ['it cannot be bundled or served locally']
-    )
+    fail(2, `${name} names a collection with no @iconify-json/${collection} installed`, [
+      'it cannot be bundled or served locally'
+    ])
     continue
   }
   if (!catalogue.icons[icon] && !catalogue.aliases?.[icon]) {

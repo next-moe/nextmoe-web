@@ -2,9 +2,7 @@
   <section id="sites" class="scroll-mt-14 border-y border-kun bg-content1">
     <div class="mx-auto w-full max-w-6xl px-5 py-20 sm:px-8 lg:py-28">
       <div class="max-w-2xl">
-        <h2
-          class="text-3xl font-semibold tracking-tight text-foreground sm:text-4xl"
-        >
+        <h2 class="text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
           {{ $t('sites.title') }}
         </h2>
         <p class="mt-5 text-base leading-relaxed text-default-600">
@@ -14,12 +12,7 @@
 
       <ul class="mt-14 grid gap-5 md:grid-cols-3">
         <li v-for="site in MEMBER_SITES" :key="site.key">
-          <a
-            :href="site.url"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="group block h-full"
-          >
+          <a :href="site.url" target="_blank" rel="noopener noreferrer" class="group block h-full">
             <KunCard is-hoverable class-name="h-full" content-class="gap-0">
               <img
                 :src="site.icon"
@@ -38,12 +31,8 @@
                 {{ $t(`sites.${site.key}.desc`) }}
               </p>
 
-              <div
-                class="mt-8 flex items-center justify-between border-t border-kun pt-4"
-              >
-                <span class="font-mono text-xs" :class="site.accent">{{
-                  site.host
-                }}</span>
+              <div class="mt-8 flex items-center justify-between border-t border-kun pt-4">
+                <span class="font-mono text-xs" :class="site.accent">{{ site.host }}</span>
                 <span
                   class="flex items-center gap-1.5 text-sm font-medium text-default-600 transition-colors group-hover:text-primary"
                 >

@@ -105,7 +105,7 @@ nginx serves `/images/` with a 30-day cache and the filenames carry no content
 hash, so **replacing artwork means picking a new filename** — overwriting a file
 leaves returning visitors on the old picture.
 
-## SEO
+## Page metadata
 
 Every indexable page carries a localized title and description, an OG/Twitter
 card pointing at `og-cover.jpg`, and one `application/ld+json` graph —

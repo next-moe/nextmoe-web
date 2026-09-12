@@ -21,9 +21,7 @@ export const privacyEn: LegalDoc = {
     {
       id: 'collect',
       title: '2. What we collect',
-      body: [
-        'We collect only what the account service needs in order to work.'
-      ],
+      body: ['We collect only what the account service needs in order to work.'],
       list: [
         '<strong>Information you give us</strong>: email address, username, password and avatar. Passwords are stored only as hashes — we cannot recover your plaintext password.',
         '<strong>Information returned by a third-party sign-in</strong>: if you choose to sign in with Google or GitHub, we receive a basic profile from them. See section 3.',

@@ -1,8 +1,5 @@
 <template>
-  <nav
-    :aria-label="$t('locale.switch')"
-    class="flex items-center gap-3 text-sm"
-  >
+  <nav :aria-label="$t('locale.switch')" class="flex items-center gap-3 text-sm">
     <template v-for="(item, index) in locales" :key="item.code">
       <span v-if="index" aria-hidden="true" class="text-default-300">/</span>
       <NuxtLink

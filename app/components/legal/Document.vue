@@ -10,21 +10,15 @@
           {{ $t('legal.backHome') }}
         </NuxtLink>
 
-        <h1
-          class="mt-8 text-3xl font-semibold tracking-tight text-foreground sm:text-5xl"
-        >
+        <h1 class="mt-8 text-3xl font-semibold tracking-tight text-foreground sm:text-5xl">
           {{ doc.title }}
         </h1>
         <p class="mt-6 max-w-3xl text-base leading-relaxed text-default-600">
           {{ doc.summary }}
         </p>
-        <p
-          class="mt-8 flex items-baseline gap-2 text-xs tracking-wider text-default-400 uppercase"
-        >
+        <p class="mt-8 flex items-baseline gap-2 text-xs tracking-wider text-default-400 uppercase">
           {{ $t('legal.effective') }}
-          <span class="font-semibold text-foreground tabular-nums">{{
-            EFFECTIVE_DATE
-          }}</span>
+          <span class="font-semibold text-foreground tabular-nums">{{ EFFECTIVE_DATE }}</span>
         </p>
       </div>
     </header>
@@ -32,13 +26,8 @@
     <div
       class="mx-auto grid w-full max-w-6xl gap-12 px-5 py-14 sm:px-8 lg:grid-cols-[15rem_1fr] lg:py-20"
     >
-      <nav
-        :aria-label="$t('legal.toc')"
-        class="lg:sticky lg:top-20 lg:self-start"
-      >
-        <h2
-          class="text-xs font-semibold tracking-[0.2em] text-default-400 uppercase"
-        >
+      <nav :aria-label="$t('legal.toc')" class="lg:sticky lg:top-20 lg:self-start">
+        <h2 class="text-xs font-semibold tracking-[0.2em] text-default-400 uppercase">
           {{ $t('legal.toc') }}
         </h2>
         <ul class="mt-5 space-y-2 border-l border-kun pl-5 text-sm">

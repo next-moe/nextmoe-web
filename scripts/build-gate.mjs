@@ -53,9 +53,7 @@ if (!existsSync(sitemapFile)) {
 }
 
 const sitemap = readFileSync(sitemapFile, 'utf8')
-const sitemapLocs = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map(
-  (m) => m[1]
-)
+const sitemapLocs = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1])
 const sitemapEntries = new Map(
   [...sitemap.matchAll(/<url>([\s\S]*?)<\/url>/g)].map(([, body]) => [
     body.match(/<loc>([^<]+)<\/loc>/)?.[1],
@@ -66,27 +64,19 @@ const sitemapEntries = new Map(
   ])
 )
 
-console.log(
-  `→ gate 1/5: every prerendered page is in the sitemap (${indexable.length} pages)`
-)
+console.log(`→ gate 1/5: every prerendered page is in the sitemap (${indexable.length} pages)`)
 const canonicals = new Map()
 for (const page of indexable) {
   const canonical = attr(page.html, /<link rel="canonical" href="([^"]+)"/)
   if (!canonical) {
-    fail(1, `${page.route} renders no canonical link`, [
-      'strictSeo should emit one for every page'
-    ])
+    fail(1, `${page.route} renders no canonical link`, ['strictSeo should emit one for every page'])
     continue
   }
   canonicals.set(page.route, canonical)
 }
 
-const missing = [...canonicals.values()].filter(
-  (url) => !sitemapLocs.includes(url)
-)
-const extra = sitemapLocs.filter(
-  (url) => ![...canonicals.values()].includes(url)
-)
+const missing = [...canonicals.values()].filter((url) => !sitemapLocs.includes(url))
+const extra = sitemapLocs.filter((url) => ![...canonicals.values()].includes(url))
 if (missing.length || extra.length) {
   fail(
     1,
@@ -109,36 +99,26 @@ if (undated.length) {
   ])
 }
 
-console.log(
-  '→ gate 2/5: hreflang covers every locale, in the page and in the sitemap'
-)
+console.log('→ gate 2/5: hreflang covers every locale, in the page and in the sitemap')
 for (const page of indexable) {
   const langs = new Set(
-    [
-      ...page.html.matchAll(
-        /<link rel="alternate" href="[^"]+" hreflang="([^"]+)"/g
-      )
-    ].map((m) => m[1])
+    [...page.html.matchAll(/<link rel="alternate" href="[^"]+" hreflang="([^"]+)"/g)].map(
+      (m) => m[1]
+    )
   )
   const wanted = [...locales, 'x-default']
   const absent = wanted.filter((lang) => !langs.has(lang))
   if (absent.length) {
-    fail(2, `${page.route} is missing hreflang for ${show(absent)}`, [
-      `present: ${show(langs)}`
-    ])
+    fail(2, `${page.route} is missing hreflang for ${show(absent)}`, [`present: ${show(langs)}`])
   }
 
   const entry = sitemapEntries.get(canonicals.get(page.route))
   if (entry && show(entry.langs) !== show(langs)) {
-    fail(
-      2,
-      `${page.route} and its sitemap entry advertise different hreflang sets`,
-      [
-        `page:    ${show(langs)}`,
-        `sitemap: ${show(entry.langs)}`,
-        'Google cross-checks the two and drops the annotation when they disagree'
-      ]
-    )
+    fail(2, `${page.route} and its sitemap entry advertise different hreflang sets`, [
+      `page:    ${show(langs)}`,
+      `sitemap: ${show(entry.langs)}`,
+      'Google cross-checks the two and drops the annotation when they disagree'
+    ])
   }
 }
 
@@ -146,9 +126,7 @@ console.log('→ gate 3/5: the not-found pages stay out of the index')
 for (const page of errorPages) {
   const robots = attr(page.html, /<meta name="robots" content="([^"]+)"/)
   if (!robots?.includes('noindex')) {
-    fail(3, `${page.route} is not marked noindex`, [
-      `robots: ${robots ?? '(no meta)'}`
-    ])
+    fail(3, `${page.route} is not marked noindex`, [`robots: ${robots ?? '(no meta)'}`])
   }
   const canonical = attr(page.html, /<link rel="canonical" href="([^"]+)"/)
   if (canonical && sitemapLocs.includes(canonical)) {
@@ -157,16 +135,14 @@ for (const page of errorPages) {
 }
 
 console.log('→ gate 4/5: the zh and en legal documents have the same sections')
-const sectionIds = (html) =>
-  [...html.matchAll(/<section id="([^"]+)"/g)].map((m) => m[1])
+const sectionIds = (html) => [...html.matchAll(/<section id="([^"]+)"/g)].map((m) => m[1])
 
 const htmlFor = (route) => pages.find((page) => page.route === route)?.html
 
 for (const name of ['privacy', 'terms']) {
-  const found = [
-    `/${name}`,
-    ...locales.map((locale) => `/${locale}/${name}`)
-  ].filter((route) => htmlFor(route))
+  const found = [`/${name}`, ...locales.map((locale) => `/${locale}/${name}`)].filter((route) =>
+    htmlFor(route)
+  )
   if (found.length < 2) {
     fail(4, `${name} does not exist in two locales`, [`found: ${show(found)}`])
     continue
@@ -200,17 +176,11 @@ for (const name of ['privacy', 'terms']) {
   }
 }
 
-console.log(
-  '→ gate 5/5: every indexable page carries structured data that matches it'
-)
+console.log('→ gate 5/5: every indexable page carries structured data that matches it')
 for (const page of indexable) {
-  const block = page.html.match(
-    /<script[^>]*application\/ld\+json[^>]*>([\s\S]*?)<\/script>/
-  )?.[1]
+  const block = page.html.match(/<script[^>]*application\/ld\+json[^>]*>([\s\S]*?)<\/script>/)?.[1]
   if (!block) {
-    fail(5, `${page.route} renders no JSON-LD`, [
-      'usePageSeo emits one @graph per page'
-    ])
+    fail(5, `${page.route} renders no JSON-LD`, ['usePageSeo emits one @graph per page'])
     continue
   }
 
@@ -218,9 +188,7 @@ for (const page of indexable) {
   try {
     graph = JSON.parse(block)
   } catch (error) {
-    fail(5, `${page.route} renders JSON-LD that does not parse`, [
-      String(error)
-    ])
+    fail(5, `${page.route} renders JSON-LD that does not parse`, [String(error)])
     continue
   }
 
@@ -232,11 +200,10 @@ for (const page of indexable) {
       `types: ${show(nodes.map((node) => node['@type']))}`
     ])
   } else if (webPage.url !== canonical) {
-    fail(
-      5,
-      `${page.route} describes a different URL than it claims as canonical`,
-      [`canonical: ${canonical}`, `WebPage:   ${webPage.url}`]
-    )
+    fail(5, `${page.route} describes a different URL than it claims as canonical`, [
+      `canonical: ${canonical}`,
+      `WebPage:   ${webPage.url}`
+    ])
   }
 
   const declared = new Set(nodes.map((node) => node['@id']).filter(Boolean))

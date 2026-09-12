@@ -5,16 +5,12 @@
     <div
       class="relative mx-auto flex w-full max-w-6xl flex-1 flex-col px-5 pt-14 pb-16 sm:px-8 lg:pt-20"
     >
-      <p
-        class="flex items-center gap-2.5 text-xs font-medium tracking-wider text-default-500"
-      >
+      <p class="flex items-center gap-2.5 text-xs font-medium tracking-wider text-default-500">
         <span class="relative flex size-1.5 shrink-0">
           <span
             class="absolute inline-flex size-full animate-ping rounded-full bg-secondary opacity-75 motion-reduce:hidden"
           />
-          <span
-            class="relative inline-flex size-1.5 rounded-full bg-secondary"
-          />
+          <span class="relative inline-flex size-1.5 rounded-full bg-secondary" />
         </span>
         {{ $t('hero.badge') }}
       </p>
@@ -31,9 +27,7 @@
         {{ $t('brand.slogan') }}
       </p>
 
-      <div
-        class="mt-10 max-w-md border-l-2 border-default-300 pl-6 sm:max-w-lg lg:mt-14"
-      >
+      <div class="mt-10 max-w-md border-l-2 border-default-300 pl-6 sm:max-w-lg lg:mt-14">
         <p class="text-base leading-relaxed text-default-600">
           {{ $t('hero.lead') }}
         </p>
@@ -48,12 +42,7 @@
               <KunIcon name="lucide:arrow-down" />
             </template>
           </KunButton>
-          <KunButton
-            href="#account"
-            size="lg"
-            variant="bordered"
-            color="default"
-          >
+          <KunButton href="#account" size="lg" variant="bordered" color="default">
             {{ $t('hero.ctaAccount') }}
           </KunButton>
         </div>

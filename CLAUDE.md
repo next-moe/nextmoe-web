@@ -49,11 +49,13 @@ current year.
 - **pnpm 11**, pinned via `packageManager` in `package.json`. **Node 24**.
 - **Prettier owns formatting, ESLint owns correctness.** `@nuxt/eslint` generates
   the flat config with `stylistic: false`, so the two never argue over the same
-  line; `eslint.config.mjs` overrides one rule and should stay that short.
-  `.prettierrc` matches kun-galgame-forum (80 columns, no semicolons, single
-  quotes) and adds `tailwindStylesheet` so `prettier-plugin-tailwindcss` can sort
-  against the Tailwind v4 entry, which has no `tailwind.config.js` to find.
-  CI runs `lint` and `format:check` ahead of the gates.
+  line; `eslint.config.mjs` overrides two rules and should stay that short.
+  `.prettierrc` takes kun-galgame-forum's conventions (no semicolons, single
+  quotes) at **100 columns** — 80 shredded the Tailwind-heavy templates, where a
+  single `class` attribute already eats the budget — and adds `tailwindStylesheet`
+  so `prettier-plugin-tailwindcss` can sort against the Tailwind v4 entry, which
+  has no `tailwind.config.js` to find. CI runs `lint` and `format:check` ahead of
+  the gates.
 
 ## Design rules
 
@@ -280,7 +282,7 @@ as a Dokploy Application still works and needs no registry.
 `server/routes/sitemap.xml.ts` both, so there is no second place to forget.
 `gate:build` fails if the sitemap and the prerendered canonicals disagree.
 
-## SEO
+## Page metadata
 
 `usePageSeo(key)` is the whole of it, called once per route-root component. It
 emits title/description from `seo.<key>.*`, the OG and Twitter card for
