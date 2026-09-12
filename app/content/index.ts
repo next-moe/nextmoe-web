@@ -12,4 +12,5 @@ const docs: Record<LegalName, Record<Locale, LegalDoc>> = {
   terms: { zh: termsZh, en: termsEn }
 }
 
-export const legalDoc = (name: LegalName, locale: Locale): LegalDoc => docs[name][locale]
+export const legalDoc = (name: LegalName, locale: Locale): LegalDoc =>
+  docs[name][locale]

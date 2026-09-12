@@ -19,3 +19,6 @@ docs
 .editorconfig
 .vscode
 CLAUDE.md
+.prettierrc
+.prettierignore
+eslint.config.mjs

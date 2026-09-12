@@ -1,12 +1,27 @@
 <template>
-  <header class="sticky top-0 z-kun-sticky border-b border-kun bg-background/85 backdrop-blur-xl">
-    <div class="mx-auto flex h-14 w-full max-w-6xl items-center gap-6 px-5 sm:px-8">
+  <header
+    class="sticky top-0 z-kun-sticky border-b border-kun bg-background/85 backdrop-blur-xl"
+  >
+    <div
+      class="mx-auto flex h-14 w-full max-w-6xl items-center gap-6 px-5 sm:px-8"
+    >
       <NuxtLink :to="localePath('/')" class="flex items-center gap-2.5">
-        <img src="/images/mark.webp" alt="" width="28" height="28" class="size-7 rounded-lg">
-        <span class="text-sm font-semibold tracking-tight text-foreground">{{ $t('brand.name') }}</span>
+        <img
+          src="/images/mark.webp"
+          alt=""
+          width="28"
+          height="28"
+          class="size-7 rounded-lg"
+        />
+        <span class="text-sm font-semibold tracking-tight text-foreground">{{
+          $t('brand.name')
+        }}</span>
       </NuxtLink>
 
-      <nav :aria-label="$t('nav.menu')" class="ml-auto hidden items-center gap-7 text-sm md:flex">
+      <nav
+        :aria-label="$t('nav.menu')"
+        class="ml-auto hidden items-center gap-7 text-sm md:flex"
+      >
         <NuxtLink
           v-for="link in anchors"
           :key="link.hash"

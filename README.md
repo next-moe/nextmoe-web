@@ -40,6 +40,8 @@ derived from `PAGES` in `shared/constants/routes.ts`, which feeds both
 pnpm install
 pnpm dev        # http://localhost:7877
 pnpm typecheck  # vue-tsc --noEmit
+pnpm lint       # eslint .            (lint:fix to autofix)
+pnpm format     # prettier . --write  (format:check in CI)
 pnpm gate:i18n  # locale catalogue checks, no build needed
 pnpm gate:icon  # icon bundle list checks, no build needed
 pnpm generate   # static build into .output/public
@@ -50,17 +52,17 @@ Every `nuxt` script sets `NUXT_LOCK=1`, which turns on Nuxt's own lock file.
 Without it a second `pnpm dev` happily starts against the same `.nuxt` and
 rewrites the virtual modules the first one is still serving.
 
+Prettier owns formatting and ESLint owns correctness — `@nuxt/eslint` generates
+the flat config with `stylistic: false` so the two never fight over a line. CI
+runs `lint` and `format:check` before the gates.
 
 `gate:i18n` fails if the two locale catalogues drift apart, if a translation
 drops an interpolated variable, or if the catalogue and the `t()` call sites
 disagree in either direction. `gate:icon` fails if `ICON_NAMES` and the icons the
 components render are not the same set, or if a name does not exist in an
-installed collection — the shipped build inlines icons with
-`fallbackToApi: false`, so either mistake renders an empty box instead of raising
-anything. Dev turns the API fallback back on (`$development` in `nuxt.config.ts`,
-because dev never serves the client bundle), which means an icon missing from
-`ICON_NAMES` looks fine locally and is blank in production. This gate is what
-catches it. `gate:build` reads
+installed collection — icons are inlined with `fallbackToApi: false` in dev and
+in production alike, so either mistake renders an empty box instead of raising
+anything, and this gate is the only thing that catches it. `gate:build` reads
 `.output/public` and fails if the generated sitemap disagrees with the canonical
 each page emits, if a page and its sitemap entry advertise different hreflang
 sets, if a 404 page is indexable, if the zh and en versions of a legal document no

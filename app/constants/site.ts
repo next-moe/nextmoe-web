@@ -37,7 +37,12 @@ export const STATUS_ITEMS = [
   { key: 'platform', color: 'secondary', icon: 'lucide:layers' }
 ] as const
 
-export const ACCOUNT_FEATURES = ['sso', 'federation', 'consent', 'privacy'] as const
+export const ACCOUNT_FEATURES = [
+  'sso',
+  'federation',
+  'consent',
+  'privacy'
+] as const
 
 export const THEME_OPTIONS = [
   { value: 'light', icon: 'lucide:sun' },

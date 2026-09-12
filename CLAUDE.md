@@ -39,14 +39,21 @@ current year.
 - **@nuxt/icon** with `fallbackToApi: false` — every icon is inlined from
   `ICON_NAMES` in `shared/constants/icon.ts`, exactly as in kun-galgame-forum, and
   the shipped site fetches nothing at runtime. A name missing from that list
-  renders nothing at all; `pnpm gate:icon` is what keeps the list honest.
-  `$development` turns the API fallback back on, because dev does not serve the
-  client bundle at all (see the traps).
+  renders nothing at all; `pnpm gate:icon` is what keeps the list honest. Dev runs
+  the same setting, with no `$development` override — see the traps for why one is
+  the wrong fix.
 - **@nuxtjs/color-mode** with `classPrefix: 'kun-'` and `classSuffix: '-mode'`,
   because KunUI's dark palette is keyed to `.kun-dark-mode` (and its Tailwind
   `dark:` variant is `&:is(.kun-dark-mode *)`) — any other class name silently
   themes nothing. `preference: 'system'`, and the switch is in the footer.
 - **pnpm 11**, pinned via `packageManager` in `package.json`. **Node 24**.
+- **Prettier owns formatting, ESLint owns correctness.** `@nuxt/eslint` generates
+  the flat config with `stylistic: false`, so the two never argue over the same
+  line; `eslint.config.mjs` overrides one rule and should stay that short.
+  `.prettierrc` matches kun-galgame-forum (80 columns, no semicolons, single
+  quotes) and adds `tailwindStylesheet` so `prettier-plugin-tailwindcss` can sort
+  against the Tailwind v4 entry, which has no `tailwind.config.js` to find.
+  CI runs `lint` and `format:check` ahead of the gates.
 
 ## Design rules
 
@@ -99,7 +106,7 @@ Display CJK gets `break-keep`. Without it the slogan broke 漫画 across two lin
 
 - Legal prose lives in **typed modules** under `app/content/*.ts`
   (`privacy.{zh,en}.ts`, `terms.{zh,en}.ts`), typed by `shared/types/legal.ts`.
-  It is deliberately *not* in locale JSON: vue-i18n's message compiler reads `@`
+  It is deliberately _not_ in locale JSON: vue-i18n's message compiler reads `@`
   as linked-message syntax and `{}` as interpolation, so a support address like
   `support@nextmoe.com` in a locale file is a compile hazard.
 - `i18n/locales/{zh,en}.json` hold **only short UI strings** (nav, buttons,
@@ -153,10 +160,10 @@ key that exists in no locale. It is switched off; the gate is the guarantee.
 ## Traps already hit — do not re-hit
 
 - **pnpm 11 build allowlist.** Approvals live in `pnpm-workspace.yaml`
-  (`allowBuilds:` — currently `esbuild` and `vue-demi`); the `pnpm` field in
-  `package.json` is gone in pnpm 11. The Dockerfile must `COPY
-  pnpm-workspace.yaml` with the manifest or the install fails with
-  `ERR_PNPM_IGNORED_BUILDS`.
+  (`allowBuilds:` — currently `esbuild`, `unrs-resolver` and `vue-demi`); the
+  `pnpm` field in `package.json` is gone in pnpm 11. The install fails with
+  `ERR_PNPM_IGNORED_BUILDS` unless the Dockerfile copies `pnpm-workspace.yaml`
+  alongside the manifest.
 - **nginx `try_files` order** must be `$uri $uri/index.html $uri/`. Putting
   `$uri/` before `$uri/index.html` makes every clean URL 301 to a trailing
   slash, which contradicts the canonicals and the sitemap.
@@ -184,30 +191,37 @@ key that exists in no locale. It is switched off; the gate is the guarantee.
   never inherits a parent's color by default, so **every element inside the dark
   `bg-foreground` band needs an explicit `text-content1*` class**.
 - **`KunButton` ignores its `icon` slot unless the `icon` prop is set.** The slot
-  renders behind `v-if="icon && iconPosition === …"`, so `<KunButton><template
-  #icon>` alone is silently dropped.
+  renders behind `v-if="icon && iconPosition === …"`, so a bare `#icon` template
+  with no `icon` prop on the button is silently dropped.
 - **The artwork's alpha channel, not its colour, is what makes it big.** These
   cut-out PNGs have soft fringed edges over a transparent ground, and WebP stores
   alpha separately at quality 100 by default: `-define webp:alpha-quality=60` took
   the bloom art from 237 KB to 151 KB and the hero from 144 KB to 99 KB with no
   visible difference over either ground. Do not flatten onto the band colour
   instead — KunUI ships a dark palette where `foreground` inverts.
-- **Icons vanishing after hydration in dev is `fallbackToApi`, not a stale
-  `.nuxt`.** @nuxt/icon's client bundle does not reach the browser under
-  `nuxt dev`, so with the fallback off the client has no icon data at all: every
-  icon SSRs as a real `<svg>` and then hydrates into an empty comment node
-  (`rendered on server: JSHandle@node / expected on client: Symbol(v-cmt)`), one
-  warning per icon, and they never come back — not even after a client-side route
-  change. `$development: { icon: { fallbackToApi: true } }` in `nuxt.config.ts` is
-  the fix; the production build keeps it `false` (`fallbackToApi:!1` is baked into
-  the client chunk, and a browser load makes zero iconify requests).
-  This was twice blamed on the wrong thing. It is **not** a second dev server and
-  **not** a missing `iconComponent`: it reproduces on a fresh `.nuxt` with one dev
-  server holding the lock, and the client-side app context genuinely carries
-  `Symbol(kun-ui-config).iconComponent === KunNuxtIcon`. The cost of guessing here
-  is that dev and production diverge in the dangerous direction — an icon the code
-  renders but `ICON_NAMES` omits now works in dev and is blank in production, and
-  `pnpm gate:icon` is the only thing standing in front of it.
+- **Icons vanishing after hydration in dev is Vite pre-bundling `@kungal/ui-vue`
+  twice.** KunUI keys its config to a module-scoped `Symbol("kun-ui-config")`, so
+  it only works as a single module instance. In dev, Vite's optimizer would serve
+  the layer plugin the raw `@fs/.../@kungal/ui-vue/dist/index.js` and `<KunIcon>`
+  the pre-bundled `node_modules/.cache/vite/client/deps/@kungal_ui-vue.js`: two
+  symbols, so the plugin's `provide` and the component's `inject` never met.
+  `inject` fell back to the library defaults, whose `iconComponent` is `null`, and
+  `KunIcon`'s last branch renders a **comment node** — one
+  `Hydration node mismatch … expected on client: Symbol(v-cmt)` per icon, plus
+  stray `rel="true"` / `target="_self"` mismatches from `KunLink` and `KunButton`
+  for the same reason. `vite.optimizeDeps.exclude: ['@kungal/ui-vue']` in
+  `nuxt.config.ts` is the fix. To confirm the shape: two `@kungal/ui-vue` URLs in
+  the dev network log, one under `.cache/vite/client/deps/` and one under `@fs/`.
+  This is dev-only — Rollup bundles one instance for production.
+  It was blamed on three wrong things first, so do not repeat any of them. It is
+  **not** a second `nuxt dev`, **not** a stale `.nuxt`, and **not**
+  `fallbackToApi`. `$development: { icon: { fallbackToApi: true } }` in particular
+  only _looked_ like a cure because editing `nuxt.config.ts` restarts the dev
+  server and re-runs the optimizer; it would also have made dev and production
+  diverge in the dangerous direction, where an icon the code renders but
+  `ICON_NAMES` omits works locally and is blank on the deployed site. The reason
+  the bug came and went on its own is that the optimizer only re-runs on some
+  restarts ("Re-optimizing dependencies because vite config has changed").
 - **Two `nuxt dev` servers on one `.nuxt` corrupt each other.** A dev server
   serves its virtual modules (`#build/...`) out of `.nuxt`, and a second one
   rewrites them underneath it, leaving the first serving a half-stale app. Nuxt
@@ -218,8 +232,8 @@ key that exists in no locale. It is switched off; the gate is the guarantee.
 - **`nuxt generate` is not what breaks a dev server**, despite looking like the
   obvious culprit: a Nuxt 4 production build uses `node_modules/.cache/nuxt/.nuxt`
   and never touches `.nuxt`. `nuxt prepare` does, and `postinstall` runs it on
-  every `pnpm add` — it holds no lock, so if icons vanish right after an install,
-  restart dev before looking for a code bug.
+  every `pnpm add` — it holds no lock, so restart dev after an install before
+  looking for a code bug.
 - **`/images/` is cached for 30 days with no fingerprint in the filename**, so
   replacing artwork in place leaves returning visitors on the old picture until
   the cache expires — caught only because a browser kept serving the previous hero
@@ -235,6 +249,8 @@ key that exists in no locale. It is switched off; the gate is the guarantee.
 ```bash
 pnpm dev         # http://localhost:7877 (uncommon on purpose — every sibling Nuxt app defaults to 3000)
 pnpm typecheck   # vue-tsc --noEmit
+pnpm lint        # eslint .            (lint:fix to autofix)
+pnpm format      # prettier . --write  (format:check in CI)
 pnpm gate:i18n   # locale catalogue checks, no build needed
 pnpm gate:icon   # icon bundle list checks, no build needed
 pnpm generate    # prerenders every route, failOnError

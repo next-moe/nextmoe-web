@@ -24,14 +24,17 @@ export const usePageSeo = (key: PageKey) => {
   const title = () => t(`seo.${key}.title`)
   const description = () => t(`seo.${key}.description`)
   const image = `${SITE_URL}${OG_IMAGE.path}`
-  const pageUrl = computed(() => `${SITE_URL}${route.path === '/' ? '' : route.path}`)
+  const pageUrl = computed(
+    () => `${SITE_URL}${route.path === '/' ? '' : route.path}`
+  )
 
   useSeoMeta({
     title,
     description,
     // Defaults cap Google at a 160-char snippet and a thumbnail-sized preview;
     // the large preview is what makes the card carry og-cover.jpg.
-    robots: 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1',
+    robots:
+      'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1',
     ogTitle: title,
     ogDescription: description,
     ogType: key === 'home' ? 'website' : 'article',
@@ -96,7 +99,12 @@ export const usePageSeo = (key: PageKey) => {
         '@type': 'BreadcrumbList',
         '@id': `${url}#breadcrumb`,
         itemListElement: [
-          { '@type': 'ListItem', position: 1, name: t('brand.name'), item: canonicalUrl(localeTag(locale.value), '/') },
+          {
+            '@type': 'ListItem',
+            position: 1,
+            name: t('brand.name'),
+            item: canonicalUrl(localeTag(locale.value), '/')
+          },
           { '@type': 'ListItem', position: 2, name: t(`footer.${key}`) }
         ]
       })
