@@ -30,6 +30,10 @@ so plainly, and that honesty is the point of the Status section.
   `default` / `foreground` / `background` / `content1`. There are no project-
   specific color tokens and there should not be; never use Tailwind's stock
   palette (gray, blue, indigo, red…) either.
+- **@nuxt/icon** with `fallbackToApi: false` — every icon is inlined from
+  `ICON_NAMES` in `shared/constants/icon.ts`, exactly as in kun-galgame-forum, and
+  nothing is ever fetched at runtime. A name missing from that list renders
+  nothing at all; `pnpm gate:icon` is what keeps the list honest.
 - **pnpm 11**, pinned via `packageManager` in `package.json`. **Node 24**.
 
 ## Design rules
@@ -42,7 +46,7 @@ a gradient used to.
 
 **Two images, both bled.** `hero-koi.webp` is a full standing keyvisual anchored
 to the bottom-right **of the `max-w-6xl` measure** (not the viewport) and sized by
-height, so it tracks the type column at every width; `bloom-character.webp` bleeds
+height, so it tracks the type column at every width; `bloom-koi.webp` bleeds
 off the bottom of the dark account band. That is the whole image budget. The
 artwork is extremely pale, so it only has presence over a dark ground or as a
 large cropped silhouette — it disappears on a light one. Do not add a third image,
@@ -52,10 +56,20 @@ Anchoring hero art to the **viewport** (`lg:-right-[8%]`) is a bug that already
 shipped once: at 2560px the figure flew into the bottom-right corner with a
 screen-wide gap between it and the text. Position against the measure.
 
+The hero figure is **hidden below `lg`** — a standing full-body crop has nowhere
+to stand on a phone, and the hero drops its `min-h` at the same breakpoint so the
+type block does not leave a screen of dead space above the media rail. It is a
+CSS background rather than an `<img>` on purpose: a `display: none` `<img>` is
+still downloaded, so hiding one would have cost every phone the full keyvisual.
+
 Member-site icons in `public/images/sites/` are the real brands, copied from
 `../kun-galgame-forum`, `../kun-galgame-patch` and `../kun-letmoe-community`.
 kungal and moyu genuinely share the 鲲 mascot — that is not a duplication bug; the
 per-site `accent` colour on the host label is what tells the cards apart.
+
+Sections open on their `<h2>`. There are no eyebrow labels above the headings and
+no `01 / 02 / 03` counters in the lists — the media rail and the status table
+carry a lucide icon in that column instead.
 
 Display CJK gets `break-keep`. Without it the slogan broke 漫画 across two lines.
 
@@ -92,6 +106,10 @@ least once; keep it that way when adding one.
 - `gate:i18n` — keys complete across locales, placeholders identical per key,
   and the catalogue matches the keys the code actually asks for (both
   directions, so an entry every locale carries but nobody renders is caught).
+- `gate:icon` — `ICON_NAMES` and the icons the code renders are the same set in
+  both directions, and every name resolves in an installed `@iconify-json/*`
+  collection. With `fallbackToApi` off, both a missing entry and a typo render an
+  empty box in silence.
 - `gate:build` — reads `.output/public`: the sitemap agrees with the canonical
   every page emits, hreflang covers every locale, the 404s stay `noindex` and out
   of the sitemap, and the zh/en legal documents carry the same section ids in the
@@ -133,6 +151,12 @@ key that exists in no locale. It is switched off; the gate is the guarantee.
 - **`KunButton` ignores its `icon` slot unless the `icon` prop is set.** The slot
   renders behind `v-if="icon && iconPosition === …"`, so `<KunButton><template
   #icon>` alone is silently dropped.
+- **The artwork's alpha channel, not its colour, is what makes it big.** These
+  cut-out PNGs have soft fringed edges over a transparent ground, and WebP stores
+  alpha separately at quality 100 by default: `-define webp:alpha-quality=60` took
+  the bloom art from 237 KB to 151 KB and the hero from 144 KB to 99 KB with no
+  visible difference over either ground. Do not flatten onto the band colour
+  instead — KunUI ships a dark palette where `foreground` inverts.
 - **`/images/` is cached for 30 days with no fingerprint in the filename**, so
   replacing artwork in place leaves returning visitors on the old picture until
   the cache expires — caught only because a browser kept serving the previous hero
@@ -149,6 +173,7 @@ key that exists in no locale. It is switched off; the gate is the guarantee.
 pnpm dev         # http://localhost:3000
 pnpm typecheck   # vue-tsc --noEmit
 pnpm gate:i18n   # locale catalogue checks, no build needed
+pnpm gate:icon   # icon bundle list checks, no build needed
 pnpm generate    # prerenders every route, failOnError
 pnpm gate:build  # checks .output/public; run after generate
 ```

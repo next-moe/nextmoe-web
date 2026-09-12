@@ -2,8 +2,7 @@
   <section id="account" class="relative scroll-mt-14 overflow-hidden bg-foreground">
     <div class="mx-auto w-full max-w-6xl px-5 pt-24 sm:px-8 lg:pt-32">
       <div class="max-w-2xl">
-        <p class="text-xs font-semibold tracking-[0.2em] text-content1/50 uppercase">{{ $t('account.eyebrow') }}</p>
-        <h2 class="mt-4 text-3xl font-semibold tracking-tight text-content1 sm:text-4xl">{{ $t('account.title') }}</h2>
+        <h2 class="text-3xl font-semibold tracking-tight text-content1 sm:text-4xl">{{ $t('account.title') }}</h2>
         <p class="mt-5 text-base leading-relaxed text-content1/70">{{ $t('account.body') }}</p>
       </div>
 
@@ -38,7 +37,7 @@
     </div>
 
     <img
-      src="/images/bloom-character.webp"
+      src="/images/bloom-koi.webp"
       :alt="$t('account.bloomAlt')"
       width="966"
       height="620"

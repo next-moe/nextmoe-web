@@ -4,7 +4,7 @@
       <div class="grid gap-12 sm:grid-cols-2 lg:grid-cols-4">
         <div>
           <div class="flex items-center gap-2.5">
-            <img src="/favicon.webp" alt="" width="28" height="28" class="size-7 rounded-lg">
+            <img src="/images/mark.webp" alt="" width="28" height="28" class="size-7 rounded-lg">
             <span class="text-sm font-semibold tracking-tight text-foreground">{{ $t('brand.name') }}</span>
           </div>
           <p class="mt-4 text-sm leading-relaxed text-default-500">{{ $t('footer.about') }}</p>

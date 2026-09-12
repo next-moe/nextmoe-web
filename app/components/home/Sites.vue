@@ -2,8 +2,7 @@
   <section id="sites" class="scroll-mt-14 border-y border-kun bg-content1">
     <div class="mx-auto w-full max-w-6xl px-5 py-20 sm:px-8 lg:py-28">
       <div class="max-w-2xl">
-        <p class="text-xs font-semibold tracking-[0.2em] text-primary uppercase">{{ $t('sites.eyebrow') }}</p>
-        <h2 class="mt-4 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">{{ $t('sites.title') }}</h2>
+        <h2 class="text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">{{ $t('sites.title') }}</h2>
         <p class="mt-5 text-base leading-relaxed text-default-600">{{ $t('sites.body') }}</p>
       </div>
 

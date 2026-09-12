@@ -39,16 +39,21 @@ pnpm install
 pnpm dev        # http://localhost:3000
 pnpm typecheck  # vue-tsc --noEmit
 pnpm gate:i18n  # locale catalogue checks, no build needed
+pnpm gate:icon  # icon bundle list checks, no build needed
 pnpm generate   # static build into .output/public
 pnpm gate:build # checks the generated output; run after generate
 ```
 
 `gate:i18n` fails if the two locale catalogues drift apart, if a translation
 drops an interpolated variable, or if the catalogue and the `t()` call sites
-disagree in either direction. `gate:build` reads `.output/public` and fails if
-`public/sitemap.xml` disagrees with the canonical each page emits, if a page is
-missing an hreflang, if a 404 page is indexable, or if the zh and en versions of
-a legal document no longer carry the same sections. CI runs both.
+disagree in either direction. `gate:icon` fails if `ICON_NAMES` and the icons the
+components render are not the same set, or if a name does not exist in an
+installed collection — icons are inlined with `fallbackToApi: false`, so either
+mistake renders an empty box instead of raising anything. `gate:build` reads
+`.output/public` and fails if `public/sitemap.xml` disagrees with the canonical
+each page emits, if a page is missing an hreflang, if a 404 page is indexable, or
+if the zh and en versions of a legal document no longer carry the same sections.
+CI runs all three.
 
 To preview the static build exactly as it ships:
 
@@ -69,13 +74,17 @@ pnpm dlx serve .output/public
 ## Images
 
 The site uses two pieces of character art, both bled off a page edge rather than
-boxed: `hero-koi.webp` in the hero and `bloom-character.webp` at the foot of the
-dark account band. `og-cover.jpg` is the social card. `images/sites/*.webp` are
-the member sites' own brand icons, copied from their repositories.
+boxed: `hero-koi.webp` in the hero (desktop only) and `bloom-koi.webp` at the foot
+of the dark account band. `og-cover.jpg` is the social card. `images/sites/*.webp`
+are the member sites' own brand icons, copied from their repositories.
 
 `public/images/*.webp` are converted from the original artwork PNGs that live in
 the repository root as `source-character-*.png`. Those originals are ignored by
 git and by Docker; keep them out of the image and out of commits.
+
+Encode them with `-quality 75..80 -define webp:alpha-quality=60`: the transparent
+ground gives these cut-outs a very expensive alpha channel, and dropping its
+quality alone takes roughly a third off the file with no visible change.
 
 nginx serves `/images/` with a 30-day cache and the filenames carry no content
 hash, so **replacing artwork means picking a new filename** — overwriting a file

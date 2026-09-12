@@ -11,6 +11,7 @@
     "preview": "nuxt preview",
     "typecheck": "vue-tsc --noEmit",
     "gate:i18n": "node scripts/i18n-gate.mjs",
+    "gate:icon": "node scripts/icon-gate.mjs",
     "gate:build": "node scripts/build-gate.mjs",
     "postinstall": "nuxt prepare"
   },

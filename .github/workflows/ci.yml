@@ -30,6 +30,8 @@ jobs:
 
       - run: pnpm gate:i18n
 
+      - run: pnpm gate:icon
+
       - run: pnpm generate
 
       - run: pnpm gate:build

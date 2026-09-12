@@ -31,7 +31,8 @@ export default defineNuxtConfig({
   icon: {
     mode: 'svg',
     serverBundle: 'local',
-    clientBundle: { icons: ICON_NAMES, scan: false }
+    clientBundle: { icons: ICON_NAMES, scan: false },
+    fallbackToApi: false
   },
   i18n: {
     baseUrl: 'https://www.nextmoe.com',

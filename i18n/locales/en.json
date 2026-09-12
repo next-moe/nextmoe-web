@@ -22,15 +22,13 @@
     "switch": "Change language"
   },
   "hero": {
-    "badge": "Platform in development",
+    "badge": "NextMoe is still under construction",
     "lead": "NextMoe is a multi-product ACGN community platform: one shared set of account, content and community capabilities behind the independently run sites below.",
     "body": "The platform itself is still under active development and has no public product yet. What is live today is the NextMoe account — the sites below already use it to sign people in.",
     "ctaSites": "See the member sites",
-    "ctaAccount": "About NextMoe accounts",
-    "imageAlt": "Koi, the NextMoe mascot"
+    "ctaAccount": "About NextMoe accounts"
   },
   "status": {
-    "eyebrow": "Straight answer",
     "title": "We are still building",
     "body": "Rather than list features that do not exist yet, here is the state of things: NextMoe as a platform is still being built, and this site is currently a portal for brand and legal information. If you are looking for content, go straight to the member sites below — those are running today.",
     "items": {
@@ -52,7 +50,6 @@
     }
   },
   "sites": {
-    "eyebrow": "Member sites",
     "title": "Sites you can use today",
     "body": "These sites are run independently and have their own brands and communities; they share the NextMoe account for signing in.",
     "visit": "Visit site",
@@ -70,7 +67,6 @@
     }
   },
   "account": {
-    "eyebrow": "Accounts",
     "title": "One account across the member sites",
     "body": "The NextMoe account is a sign-in and authorization service operated by NextMoe at account.nextmoe.com. Member sites use it over OAuth: a site only receives what the consent screen showed you.",
     "features": {

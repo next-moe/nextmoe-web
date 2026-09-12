@@ -11,7 +11,12 @@ export const PLATFORM = {
 export const GOOGLE_USER_DATA_POLICY =
   'https://developers.google.com/terms/api-services-user-data-policy'
 
-export const MEDIA = ['anime', 'manga', 'game', 'novel'] as const
+export const MEDIA = [
+  { key: 'anime', icon: 'lucide:clapperboard' },
+  { key: 'manga', icon: 'lucide:book-image' },
+  { key: 'game', icon: 'lucide:gamepad-2' },
+  { key: 'novel', icon: 'lucide:book-open-text' }
+] as const
 
 export const MEMBER_SITES = [
   {
@@ -38,9 +43,9 @@ export const MEMBER_SITES = [
 ] as const
 
 export const STATUS_ITEMS = [
-  { key: 'portal', color: 'success' },
-  { key: 'account', color: 'primary' },
-  { key: 'platform', color: 'secondary' }
+  { key: 'portal', color: 'success', icon: 'lucide:globe' },
+  { key: 'account', color: 'primary', icon: 'lucide:key-round' },
+  { key: 'platform', color: 'secondary', icon: 'lucide:layers' }
 ] as const
 
 export const ACCOUNT_FEATURES = ['sso', 'federation', 'consent', 'privacy'] as const
