@@ -1,13 +1,7 @@
-export const SITE_URL = 'https://www.nextmoe.com'
-export const SUPPORT_EMAIL = 'support@nextmoe.com'
-export const EFFECTIVE_DATE = '2026-09-11'
-// NextMoe dates from kungal.com, not from the nextmoe.com domain (registered 2025).
-export const FOUNDED_YEAR = 2020
-
 export const PLATFORM = {
   account: 'https://account.nextmoe.com',
   developer: 'https://developer.nextmoe.dev',
-  docs: 'https://docs-kungal.nextmoe.dev'
+  docs: 'https://docs.nextmoe.dev'
 } as const
 
 export const GOOGLE_USER_DATA_POLICY =

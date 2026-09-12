@@ -12,3 +12,10 @@ README.md
 scripts
 
 source-character-*
+/*.png
+docker-compose*.yml
+docs
+.github
+.editorconfig
+.vscode
+CLAUDE.md

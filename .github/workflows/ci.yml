@@ -1,17 +1,16 @@
 name: CI
 
 on:
-  push:
-    branches: [main]
   pull_request:
     branches: [main]
+  workflow_dispatch: {}
 
 concurrency:
   group: ci-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  build:
+  gates:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5

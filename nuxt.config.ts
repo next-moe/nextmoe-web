@@ -2,6 +2,7 @@ import tailwindcss from '@tailwindcss/vite'
 import { DEFAULT_LOCALE, LOCALES } from './shared/constants/locale'
 import { PRERENDER_ROUTES } from './shared/constants/routes'
 import { ICON_NAMES } from './shared/constants/icon'
+import { SITE_URL } from './shared/constants/site'
 
 export default defineNuxtConfig({
   compatibilityDate: '2026-09-11',
@@ -17,6 +18,7 @@ export default defineNuxtConfig({
       meta: [
         { charset: 'utf-8' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+        { name: 'format-detection', content: 'telephone=no' },
         { name: 'theme-color', content: '#f4f4f7', media: '(prefers-color-scheme: light)' },
         { name: 'theme-color', content: '#0d0d0d', media: '(prefers-color-scheme: dark)' }
       ],
@@ -43,7 +45,7 @@ export default defineNuxtConfig({
     fallbackToApi: false
   },
   i18n: {
-    baseUrl: 'https://www.nextmoe.com',
+    baseUrl: SITE_URL,
     defaultLocale: DEFAULT_LOCALE,
     strategy: 'prefix_except_default',
     detectBrowserLanguage: false,
@@ -56,6 +58,13 @@ export default defineNuxtConfig({
     })),
     experimental: { strictSeo: true }
   },
+  // Dev never serves @nuxt/icon's client bundle, so with the fallback off every
+  // icon SSRs as an <svg> and hydrates into an empty comment node. The shipped
+  // build keeps it false; `pnpm gate:icon` covers the divergence.
+  $development: {
+    icon: { fallbackToApi: true }
+  },
+
   nitro: {
     prerender: {
       crawlLinks: true,

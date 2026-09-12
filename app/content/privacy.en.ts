@@ -1,5 +1,6 @@
 import type { LegalDoc } from '#shared/types/legal'
-import { GOOGLE_USER_DATA_POLICY, SUPPORT_EMAIL } from '~/constants/site'
+import { SUPPORT_EMAIL } from '#shared/constants/site'
+import { GOOGLE_USER_DATA_POLICY } from '~/constants/site'
 
 const mail = `<a href="mailto:${SUPPORT_EMAIL}">${SUPPORT_EMAIL}</a>`
 

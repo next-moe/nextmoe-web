@@ -1,5 +1,5 @@
 import type { LegalDoc } from '#shared/types/legal'
-import { SUPPORT_EMAIL } from '~/constants/site'
+import { SUPPORT_EMAIL } from '#shared/constants/site'
 
 const mail = `<a href="mailto:${SUPPORT_EMAIL}">${SUPPORT_EMAIL}</a>`
 

@@ -54,15 +54,15 @@
     "body": "These sites are run independently and have their own brands and communities; they share the NextMoe account for signing in.",
     "visit": "Visit site",
     "kungal": {
-      "name": "KUN Galgame Forum",
+      "name": "Kun Visual Novel Forum",
       "desc": "A community forum for Galgames and visual novels — discussion, guides and fellow enthusiasts."
     },
     "moyu": {
-      "name": "KUN Galgame Patch",
+      "name": "Kun Visual Novel Patch",
       "desc": "An open-source, free, no-barrier download site for Galgame patches and resources."
     },
     "letmoe": {
-      "name": "letmoe",
+      "name": "LetMoe",
       "desc": "A free, no-barrier ACG game resource site and community — doujin games first, Galgames alongside."
     }
   },

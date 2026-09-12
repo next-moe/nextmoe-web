@@ -38,8 +38,10 @@ current year.
   palette (gray, blue, indigo, red…) either.
 - **@nuxt/icon** with `fallbackToApi: false` — every icon is inlined from
   `ICON_NAMES` in `shared/constants/icon.ts`, exactly as in kun-galgame-forum, and
-  nothing is ever fetched at runtime. A name missing from that list renders
-  nothing at all; `pnpm gate:icon` is what keeps the list honest.
+  the shipped site fetches nothing at runtime. A name missing from that list
+  renders nothing at all; `pnpm gate:icon` is what keeps the list honest.
+  `$development` turns the API fallback back on, because dev does not serve the
+  client bundle at all (see the traps).
 - **@nuxtjs/color-mode** with `classPrefix: 'kun-'` and `classSuffix: '-mode'`,
   because KunUI's dark palette is keyed to `.kun-dark-mode` (and its Tailwind
   `dark:` variant is `&:is(.kun-dark-mode *)`) — any other class name silently
@@ -113,9 +115,15 @@ Display CJK gets `break-keep`. Without it the slogan broke 漫画 across two lin
   an **internal planning document** — read it for positioning, never copy its
   roadmap into public copy. Unlaunched products and narratives the draft marks as
   internal-only stay off this site.
-- Shared facts (domains, support email, effective date) live in
-  `app/constants/site.ts`. Facts that `nuxt.config.ts` and the gate scripts also
-  need — the locale list, the page list — live in `shared/constants/`.
+- Shared facts live in `shared/constants/site.ts` — the site URL, support
+  address, effective date, founding year, and the og/logo image dimensions. They
+  are in `shared/` rather than `app/` because `nuxt.config.ts` (i18n `baseUrl`)
+  and the prerendered sitemap route read them too. `app/constants/site.ts` keeps
+  what only the UI needs: `PLATFORM`, `MEMBER_SITES`, `STATUS_ITEMS`,
+  `THEME_OPTIONS`.
+- The member sites' official English names are **Kun Visual Novel Forum**
+  (kungal.com), **Kun Visual Novel Patch** (moyu.moe) and **LetMoe**
+  (letmoe.com, 一起萌 in Chinese). They are not translations to improvise.
 
 ## The gates
 
@@ -130,10 +138,13 @@ least once; keep it that way when adding one.
   both directions, and every name resolves in an installed `@iconify-json/*`
   collection. With `fallbackToApi` off, both a missing entry and a typo render an
   empty box in silence.
-- `gate:build` — reads `.output/public`: the sitemap agrees with the canonical
-  every page emits, hreflang covers every locale, the 404s stay `noindex` and out
-  of the sitemap, and the zh/en legal documents carry the same section ids in the
-  same order.
+- `gate:build` — reads `.output/public`: the generated sitemap agrees with the
+  canonical every page emits and dates every entry, hreflang covers every locale
+  **and matches the sitemap's own alternates for that page**, the 404s stay
+  `noindex` and out of the sitemap, the zh/en legal documents carry the same
+  section ids in the same order, and every indexable page carries JSON-LD that
+  parses, describes its own canonical, and references no `@id` its graph does not
+  declare.
 
 `i18n.experimental.typedOptionsAndMessages` is **not** the enforcement: it only
 generates `.nuxt/types/i18n-messages.d.ts` in dev, and `vue-tsc` still accepts a
@@ -148,7 +159,11 @@ key that exists in no locale. It is switched off; the gate is the guarantee.
   `ERR_PNPM_IGNORED_BUILDS`.
 - **nginx `try_files` order** must be `$uri $uri/index.html $uri/`. Putting
   `$uri/` before `$uri/index.html` makes every clean URL 301 to a trailing
-  slash, which contradicts the canonicals and `public/sitemap.xml`.
+  slash, which contradicts the canonicals and the sitemap.
+- **An `add_header` inside an nginx location replaces the inherited set**, it
+  does not add to it. That is why `Cache-Control` comes from the `$nextmoe_cache`
+  map and there is exactly one `add_header` block, at server level: a per-location
+  cache header would have silently dropped every security header.
 - **Single real root element** in any page or route-root component. A leading
   comment, whitespace or sibling at the template root is itself a root node;
   Nuxt then warns "does not have a single root node" and the page transition
@@ -177,15 +192,29 @@ key that exists in no locale. It is switched off; the gate is the guarantee.
   the bloom art from 237 KB to 151 KB and the hero from 144 KB to 99 KB with no
   visible difference over either ground. Do not flatten onto the band colour
   instead — KunUI ships a dark palette where `foreground` inverts.
+- **Icons vanishing after hydration in dev is `fallbackToApi`, not a stale
+  `.nuxt`.** @nuxt/icon's client bundle does not reach the browser under
+  `nuxt dev`, so with the fallback off the client has no icon data at all: every
+  icon SSRs as a real `<svg>` and then hydrates into an empty comment node
+  (`rendered on server: JSHandle@node / expected on client: Symbol(v-cmt)`), one
+  warning per icon, and they never come back — not even after a client-side route
+  change. `$development: { icon: { fallbackToApi: true } }` in `nuxt.config.ts` is
+  the fix; the production build keeps it `false` (`fallbackToApi:!1` is baked into
+  the client chunk, and a browser load makes zero iconify requests).
+  This was twice blamed on the wrong thing. It is **not** a second dev server and
+  **not** a missing `iconComponent`: it reproduces on a fresh `.nuxt` with one dev
+  server holding the lock, and the client-side app context genuinely carries
+  `Symbol(kun-ui-config).iconComponent === KunNuxtIcon`. The cost of guessing here
+  is that dev and production diverge in the dangerous direction — an icon the code
+  renders but `ICON_NAMES` omits now works in dev and is blank in production, and
+  `pnpm gate:icon` is the only thing standing in front of it.
 - **Two `nuxt dev` servers on one `.nuxt` corrupt each other.** A dev server
   serves its virtual modules (`#build/...`) out of `.nuxt`, and a second one
-  rewrites them underneath it. The first then serves a half-stale app: the KunUI
-  plugin never provided `iconComponent`, so every icon hydrated into an empty
-  comment node (`expected on client: Symbol(v-cmt)`) while the production build
-  was perfect. Nuxt has a lock for exactly this, but `isLockEnabled()` returns
-  `std-env`'s `isAgent` — a dev server a **person** started writes no lock at all
-  — so every `nuxt` script in `package.json` sets `NUXT_LOCK=1` to force it on.
-  Restarting the dev server is the cure.
+  rewrites them underneath it, leaving the first serving a half-stale app. Nuxt
+  has a lock for exactly this, but `isLockEnabled()` returns `std-env`'s
+  `isAgent` — a dev server a **person** started writes no lock at all — so every
+  `nuxt` script in `package.json` sets `NUXT_LOCK=1` to force it on. Restarting
+  the dev server is the cure.
 - **`nuxt generate` is not what breaks a dev server**, despite looking like the
   obvious culprit: a Nuxt 4 production build uses `node_modules/.cache/nuxt/.nuxt`
   and never touches `.nuxt`. `nuxt prepare` does, and `postinstall` runs it on
@@ -204,7 +233,7 @@ key that exists in no locale. It is switched off; the gate is the guarantee.
 ## Commands
 
 ```bash
-pnpm dev         # http://localhost:3000
+pnpm dev         # http://localhost:7877 (uncommon on purpose — every sibling Nuxt app defaults to 3000)
 pnpm typecheck   # vue-tsc --noEmit
 pnpm gate:i18n   # locale catalogue checks, no build needed
 pnpm gate:icon   # icon bundle list checks, no build needed
@@ -218,14 +247,40 @@ six canonical routes return 200 directly, `Host: nextmoe.com` 301s to
 
 ## Deployment
 
-Dokploy standalone **Application** building this repo's `Dockerfile` (Node stage
-runs `pnpm generate`, result copied into `nginx:alpine`), container port **80**.
-The apex → www 301 happens in nginx inside the container, not at the proxy.
+The runbook is `docs/deploy.md`. In short: one image (Node stage runs
+`pnpm generate`, the result is copied into `nginx:alpine`), container port **80**,
+apex → www 301 inside the container rather than at the proxy. The image takes
+**no environment variables** — every URL is baked in from
+`shared/constants/site.ts`.
 
-**Adding a page** means a route file, an entry in `PAGES` in
-`shared/constants/routes.ts` (which is what `nitro.prerender.routes` is derived
-from), and both locales in `public/sitemap.xml`. `gate:build` fails if the
-sitemap and the prerendered canonicals disagree.
+Pushes to `main` run `.github/workflows/build.yml`: gates, then
+`ghcr.io/kunmoe/nextmoe-web:latest` and `:<sha>`, then the Dokploy webhook.
+`ci.yml` runs the same gates on pull requests only, so the two never duplicate
+each other. Dokploy deploys `docker-compose.prod.yml`; building the `Dockerfile`
+as a Dokploy Application still works and needs no registry.
+
+**Adding a page** means a route file plus an entry in `PAGES` in
+`shared/constants/routes.ts` — that one list feeds `nitro.prerender.routes` and
+`server/routes/sitemap.xml.ts` both, so there is no second place to forget.
+`gate:build` fails if the sitemap and the prerendered canonicals disagree.
+
+## SEO
+
+`usePageSeo(key)` is the whole of it, called once per route-root component. It
+emits title/description from `seo.<key>.*`, the OG and Twitter card for
+`og-cover.jpg` (1200x630), a `robots` line that opts into large image previews and
+uncapped snippets, and one `application/ld+json` `@graph`: `Organization` +
+`WebSite` + `WebPage`, plus an `ItemList` of the member sites on the home page and
+a `BreadcrumbList` on the legal pages.
+
+Do **not** add canonical, hreflang, `og:url` or `og:locale` — `i18n.experimental
+.strictSeo` owns those and throws if anything else claims them. The sitemap is a
+prerendered Nitro route, not a file in `public/`; `lastmod` is `EFFECTIVE_DATE`,
+so a rebuild alone never moves the dates.
+
+Never put a fact in the structured data that is not already elsewhere in the repo.
+There is no `sameAs` on the Organization because NextMoe has no official social
+profile recorded here — an invented one is worse than an absent one.
 
 ## Conventions
 

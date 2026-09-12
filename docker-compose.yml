@@ -1,0 +1,15 @@
+name: nextmoe-web
+
+services:
+  nextmoe-web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports: ['15020:80']
+    healthcheck:
+      test: ['CMD', 'wget', '-q', '-O', '/dev/null', 'http://127.0.0.1/']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    restart: unless-stopped

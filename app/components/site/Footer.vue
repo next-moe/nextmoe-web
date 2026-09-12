@@ -78,7 +78,8 @@
 </template>
 
 <script setup lang="ts">
-import { FOUNDED_YEAR, MEMBER_SITES, PLATFORM, SUPPORT_EMAIL } from '~/constants/site'
+import { FOUNDED_YEAR, SUPPORT_EMAIL } from '#shared/constants/site'
+import { MEMBER_SITES, PLATFORM } from '~/constants/site'
 
 const localePath = useLocalePath()
 const year = new Date().getFullYear()

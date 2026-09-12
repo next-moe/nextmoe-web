@@ -5,10 +5,10 @@
   "type": "module",
   "packageManager": "pnpm@11.17.0",
   "scripts": {
-    "dev": "NUXT_LOCK=1 nuxt dev",
+    "dev": "NUXT_LOCK=1 nuxt dev --port 7877",
     "build": "NUXT_LOCK=1 nuxt build",
     "generate": "NUXT_LOCK=1 nuxt generate",
-    "preview": "nuxt preview",
+    "preview": "nuxt preview --port 7877",
     "typecheck": "vue-tsc --noEmit",
     "gate:i18n": "node scripts/i18n-gate.mjs",
     "gate:icon": "node scripts/icon-gate.mjs",

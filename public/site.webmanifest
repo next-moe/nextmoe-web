@@ -1,7 +1,14 @@
 {
+  "id": "/",
   "name": "NextMoe·未萌",
   "short_name": "NextMoe",
   "description": "NextMoe·未萌 是下一代 动漫、漫画、游戏、轻小说 的事实标准。",
+  "lang": "zh-CN",
+  "dir": "ltr",
+  "categories": [
+    "entertainment",
+    "social"
+  ],
   "start_url": "/",
   "scope": "/",
   "display": "standalone",

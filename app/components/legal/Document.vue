@@ -73,7 +73,7 @@
 
 <script setup lang="ts">
 import type { LegalDoc } from '#shared/types/legal'
-import { EFFECTIVE_DATE, SUPPORT_EMAIL } from '~/constants/site'
+import { EFFECTIVE_DATE, SUPPORT_EMAIL } from '#shared/constants/site'
 
 defineProps<{ doc: LegalDoc }>()
 

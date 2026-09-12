@@ -24,8 +24,8 @@ account service at `account.nextmoe.com`.
 ## Routes
 
 Six indexable pages plus a prerendered not-found page per locale. The list is
-derived from `PAGES` in `shared/constants/routes.ts`, which is what
-`nitro.prerender.routes` is built from:
+derived from `PAGES` in `shared/constants/routes.ts`, which feeds both
+`nitro.prerender.routes` and `server/routes/sitemap.xml.ts`:
 
 | Route      | Route (en)    | In the sitemap |
 | ---------- | ------------- | -------------- |
@@ -38,7 +38,7 @@ derived from `PAGES` in `shared/constants/routes.ts`, which is what
 
 ```bash
 pnpm install
-pnpm dev        # http://localhost:3000
+pnpm dev        # http://localhost:7877
 pnpm typecheck  # vue-tsc --noEmit
 pnpm gate:i18n  # locale catalogue checks, no build needed
 pnpm gate:icon  # icon bundle list checks, no build needed
@@ -55,12 +55,18 @@ rewrites the virtual modules the first one is still serving.
 drops an interpolated variable, or if the catalogue and the `t()` call sites
 disagree in either direction. `gate:icon` fails if `ICON_NAMES` and the icons the
 components render are not the same set, or if a name does not exist in an
-installed collection — icons are inlined with `fallbackToApi: false`, so either
-mistake renders an empty box instead of raising anything. `gate:build` reads
-`.output/public` and fails if `public/sitemap.xml` disagrees with the canonical
-each page emits, if a page is missing an hreflang, if a 404 page is indexable, or
-if the zh and en versions of a legal document no longer carry the same sections.
-CI runs all three.
+installed collection — the shipped build inlines icons with
+`fallbackToApi: false`, so either mistake renders an empty box instead of raising
+anything. Dev turns the API fallback back on (`$development` in `nuxt.config.ts`,
+because dev never serves the client bundle), which means an icon missing from
+`ICON_NAMES` looks fine locally and is blank in production. This gate is what
+catches it. `gate:build` reads
+`.output/public` and fails if the generated sitemap disagrees with the canonical
+each page emits, if a page and its sitemap entry advertise different hreflang
+sets, if a 404 page is indexable, if the zh and en versions of a legal document no
+longer carry the same sections, or if a page's JSON-LD does not parse, does not
+describe that page's canonical, or references an `@id` its own graph never
+declares.
 
 To preview the static build exactly as it ships:
 
@@ -97,15 +103,32 @@ nginx serves `/images/` with a 30-day cache and the filenames carry no content
 hash, so **replacing artwork means picking a new filename** — overwriting a file
 leaves returning visitors on the old picture.
 
+## SEO
+
+Every indexable page carries a localized title and description, an OG/Twitter
+card pointing at `og-cover.jpg`, and one `application/ld+json` graph —
+`Organization`, `WebSite`, `WebPage`, plus an `ItemList` of the member sites on
+the home page and a `BreadcrumbList` on the legal pages. Canonical, hreflang,
+`og:url` and `og:locale` come from `@nuxtjs/i18n`'s `strictSeo`, which owns them.
+
+`sitemap.xml` is a prerendered Nitro route
+(`server/routes/sitemap.xml.ts`) built from the same `PAGES` list as the
+prerenderer, with per-page `lastmod`/`changefreq`/`priority` and `xhtml:link`
+alternates matching the hreflang the pages emit. `gate:build` checks all of that
+against the real output.
+
 ## Deployment
 
-Dokploy builds the `Dockerfile` in this repository:
+See `docs/deploy.md`. Dokploy deploys `docker-compose.prod.yml` from the image
+`.github/workflows/build.yml` publishes to GHCR on every push to `main`; building
+the `Dockerfile` directly as a Dokploy Application works too and needs no
+registry. Either way:
 
 1. a Node stage runs `pnpm install --frozen-lockfile` and `pnpm generate`;
-2. the result is copied into `nginx:alpine` and served as static files.
+2. the result is copied into `nginx:alpine` and served as static files on port 80.
 
 `nginx.conf` serves `www.nextmoe.com`, 301-redirects the apex `nextmoe.com` to
-`https://www.nextmoe.com`, caches `/_nuxt/` and `/images/` aggressively, and marks
-HTML `no-cache`. Unknown paths get the prerendered not-found page **in the right
-language**: `/404/index.html` by default, and `/en/404/index.html` for anything
-under `/en/`.
+`https://www.nextmoe.com`, sends a small set of security headers, caches
+`/_nuxt/` and `/images/` aggressively, and marks HTML `no-cache`. Unknown paths
+get the prerendered not-found page **in the right language**: `/404/index.html` by
+default, and `/en/404/index.html` for anything under `/en/`.
